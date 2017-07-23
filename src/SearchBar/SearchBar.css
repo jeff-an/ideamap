@@ -1,0 +1,36 @@
+@import url("//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css");
+.search {
+    position: fixed;
+    top: calc(50% - 20px);
+    width: 100%;
+}
+
+.search .search-bar {
+    position: relative;
+    width: 50%;
+    height: 50px;
+    left: 25%;
+    margin: 0;
+}
+
+.search .search-bar input {
+    padding-bottom: 4px;
+    font-family: Segoe UI, Calibri Light, serif;
+    font-size: 20px;
+    text-indent: 36px;
+}
+
+.search .search-bar input {
+    width: 100%;
+    height: inherit;
+    background: #fcfcfc;
+    border: 1px solid #aaa;
+    box-shadow: 0 0 3px #ccc, 0 10px 15px #fff inset;
+}
+
+.search .search-bar .fa-search {
+    position: absolute;
+    color: #aaa;
+    top: 17px;
+    left: 12px;
+}
