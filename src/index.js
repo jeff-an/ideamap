@@ -8,4 +8,5 @@ import registerServiceWorker from './registerServiceWorker';
 ReactDOM.render(<App />, document.getElementById('root'), function() {
     $('#SearchBarInput').focus();
 });
+
 registerServiceWorker();

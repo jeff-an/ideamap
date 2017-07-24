@@ -1,36 +1,79 @@
+
+
+/* Provides the classes fa and fa-search (font awesome icons) */
 @import url("//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css");
-.search {
+.main-search {
     position: fixed;
-    top: calc(50% - 20px);
+    top: calc(55% - 25px);
     width: 100%;
+    height: 110px;
+    overflow: hidden;
 }
 
-.search .search-bar {
+.main-search .main-search-form {
+    height: 45px;
+    margin-left: 25%;
+    margin-right: 25%;
+}
+
+.main-search .main-search-bar {
     position: relative;
-    width: 50%;
-    height: 50px;
-    left: 25%;
-    margin: 0;
+    left: 0;
+    display: inline-block;
+    float: left;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
 }
 
-.search .search-bar input {
-    padding-bottom: 4px;
+.main-search .main-search-bar input {
+    padding-bottom: 6px;
     font-family: Segoe UI, Calibri Light, serif;
     font-size: 20px;
-    text-indent: 36px;
+    text-indent: 32px;
 }
 
-.search .search-bar input {
+.main-search .main-search-bar input {
     width: 100%;
-    height: inherit;
-    background: #fcfcfc;
-    border: 1px solid #aaa;
-    box-shadow: 0 0 3px #ccc, 0 10px 15px #fff inset;
+    height: 100%;
+    background: #fff;
+    border: 1.75px solid #26094B;
 }
 
-.search .search-bar .fa-search {
+.main-search .main-search-bar .fa-search {
     position: absolute;
     color: #aaa;
-    top: 17px;
-    left: 12px;
+    top: 16px;
+    left: 14px;
+}
+
+.main-search .search-submit {
+    position: absolute;
+    margin-top: 5px;
+    left: 46%;
+    display: inline-block;
+    height: 40px;
+    width: 7%;
+    overflow: hidden;
+    float: left;
+    font-family: Segoe UI, Calibri Light, serif;
+    font-size: 11px;
+}
+
+.main-search .search-submit #search-submit-button {
+    width: 100%;
+    height: 100%;
+}
+
+.main-search .search-submit .search-submit-text {
+    color: #26094B;
+    position: absolute;
+    top: 26%;
+    left: 26%;
+}
+
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
 }

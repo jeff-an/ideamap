@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
-import SearchBar from '../SearchBar/SearchBar.jsx';
+import { default as MainSearchBar } from '../SearchBar/SearchBar.jsx';
 
 class App extends Component {
   render() {
@@ -14,7 +15,9 @@ class App extends Component {
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
-        <SearchBar/>
+        <div className="main-body">
+        <MainSearchBar name = "SearchForm"/>
+        </div>
       </div>
     );
   }
