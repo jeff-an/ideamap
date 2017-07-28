@@ -1,22 +1,26 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import logo from '../Misc/img/logo.svg';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
-import { default as MainSearchBar } from '../SearchBar/SearchBar.jsx';
+import { default as MainSearchBar } from '../Search/SearchBar.jsx';
+import { default as MainSearchBox } from '../Search/BackgroundBox.jsx';
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+		<div className="app">
+		<div className="app-header-bar">
+			<div className="app-logo-container">
+				<img src={logo} className="app-logo" alt="logo" />
+			</div>
+			<div className="app-title">
+				<p style={{margin:0}}>IdeaMap</p>
+			</div>
+		</div>
         <div className="main-body">
-        <MainSearchBar name = "SearchForm"/>
+            <div className="search-box">
+                <MainSearchBar name = "SearchForm"/>
+            </div>
         </div>
       </div>
     );

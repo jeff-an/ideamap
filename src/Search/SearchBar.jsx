@@ -27,8 +27,8 @@ class SearchBarInput extends React.Component {
     }
     render() {
         return (
-            <div className = {this.props.classes} >
-                <span className = "fa fa-search"></span>
+            <div className = {this.props.classes}>
+                <span className = "fa fa-search fa-lg"></span>
                 <input
                     id = {this.props.name}
                     type = "search"
@@ -46,8 +46,8 @@ class SearchBarButton extends React.Component {
     render() {
         return (
             <div className = {this.props.name}>
-                <Button id = {this.props.name + '-button'} className = "btn btn-default" type = "submit">
-                <p className = {this.props.name + '-text'}> Submit </p>
+                <Button id = {this.props.name + '-button'} className = "btn btn-primary" type = "submit">
+                Generate
                 </Button>
             </div>
         );

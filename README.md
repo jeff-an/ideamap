@@ -139,7 +139,7 @@ my-app/
 For the project to build, **these files must exist with exact filenames**:
 
 * `public/index.html` is the page template;
-* `src/index.js` is the JavaScript entry point.
+* `src/Index.js` is the JavaScript entry point.
 
 You can delete or rename the other files.
 
@@ -475,7 +475,7 @@ class Button extends Component {
 
 In development, expressing dependencies this way allows your styles to be reloaded on the fly as you edit them. In production, all CSS files will be concatenated into a single minified `.css` file in the build output.
 
-If you are concerned about using Webpack-specific semantics, you can put all your CSS right into `src/index.css`. It would still be imported from `src/index.js`, but you could always remove that import if you later migrate to a different build tool.
+If you are concerned about using Webpack-specific semantics, you can put all your CSS right into `src/index.css`. It would still be imported from `src/Index.js`, but you could always remove that import if you later migrate to a different build tool.
 
 ## Post-Processing CSS
 
@@ -738,7 +738,7 @@ Alternatively you may use `yarn`:
 yarn add react-bootstrap bootstrap@3
 ```
 
-Import Bootstrap CSS and optionally Bootstrap theme CSS in the beginning of your ```src/index.js``` file:
+Import Bootstrap CSS and optionally Bootstrap theme CSS in the beginning of your ```src/Index.js``` file:
 
 ```js
 import 'bootstrap/dist/css/bootstrap.css';
@@ -1564,12 +1564,12 @@ that your web app is reliably fast, even on a slow or unreliable network.
 
 If you would prefer not to enable service workers prior to your initial
 production deployment, then remove the call to `serviceWorkerRegistration.register()`
-from [`src/index.js`](src/index.js).
+from [`src/Index.js`](src/Index.js).
 
 If you had previously enabled service workers in your production deployment and
 have decided that you would like to disable them for all your existing users,
 you can swap out the call to `serviceWorkerRegistration.register()` in
-[`src/index.js`](src/index.js) with a call to `serviceWorkerRegistration.unregister()`.
+[`src/Index.js`](src/Index.js) with a call to `serviceWorkerRegistration.unregister()`.
 After the user visits a page that has `serviceWorkerRegistration.unregister()`,
 the service worker will be uninstalled.
 

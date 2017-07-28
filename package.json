@@ -4,16 +4,22 @@
   "private": true,
   "dependencies": {
     "bootstrap": "^3.3.7",
+    "gojs": "^1.7.17",
     "jquery": "^3.2.1",
     "react": "^15.6.1",
     "react-bootstrap": "^0.31.1",
     "react-dom": "^15.6.1",
-    "react-scripts": "1.0.10"
+    "react-redux": "^5.0.5",
+    "react-scripts": "1.0.10",
+    "redux": "^3.7.2"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "redux-devtools": "^3.4.0"
   }
 }
