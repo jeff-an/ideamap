@@ -4,14 +4,6 @@
     src: url('../Misc/fonts/Lekton/Lekton-Regular.ttf');
 }
 @import url("//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css");
-.main-search {
-    position: absolute;
-    top: 45%;
-    left: 0;
-    width: 100%;
-    height: 38%;
-    overflow: hidden;
-}
 
 .main-search .main-search-form {
     height: 30%;
@@ -21,8 +13,8 @@
 
 .main-search .main-search-bar {
     position: absolute;
-    left: 20%;
-    width: 60%;
+    left: 17.5%;
+    width: 65%;
     height: 100%;
     overflow: hidden;
 }
@@ -53,13 +45,10 @@
 .main-search .main-search-submit {
     text-align: center;
     position: absolute;
-    margin-top: 1%;
-    left: calc(50% - 50px);
-    display: inline-block;
-    height: calc(15px + 14%);
-    width: 100px;
-    overflow: hidden;
-    float: left;
+    margin-top: 10px;
+    left: calc(50% - 45px);
+    height: calc(25px + 10%);
+    width: 90px;
     color: #26094B;
 }
 

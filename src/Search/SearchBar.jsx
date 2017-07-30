@@ -25,7 +25,7 @@ class SearchBarInput extends React.Component {
     }
     render() {
         return (
-            <div className = {this.props.group + '-bar' + ' form-group'}>
+            <div className = {this.props.group + '-bar'}>
                 <span className = "fa fa-search fa-lg"></span>
                 <input
                     type = "search"

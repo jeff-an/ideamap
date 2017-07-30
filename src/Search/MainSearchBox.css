@@ -3,13 +3,13 @@
     src: url(../Misc/fonts/Raleway/Raleway-Regular.ttf);
 }
 
-.main-search-intro {
-    font-family: Raleway Regular, sans-serif;
-    text-align: center;
-    line-height: normal;
+@font-face {
+    font-family: Raleway SemiBold;
+    src: url(../Misc/fonts/Raleway/Raleway-SemiBold.ttf);
 }
 
 .main-search-box {
+    min-height: 375px;
     position: absolute;
     padding-top: 0;
     left: 17.5%;
@@ -17,4 +17,37 @@
     width: 65%;
     height: 50%;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5), 0 6px 20px 0 rgba(0, 0, 0, 0.5);
+}
+
+.main-search-box .main-search {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: calc(60px + 16%);
+    overflow: hidden;
+}
+
+.main-search-box .main-search-intro {
+    font-family: Raleway Regular, sans-serif;
+    text-align: center;
+    line-height: 14px;
+    overflow: hidden;
+    text-overflow: clip;
+    word-wrap: break-word;
+}
+
+.main-search-intro .regular-font {
+    text-align: center;
+    font-family: Raleway Regular;
+    font-size: 14px;
+    white-space: normal;
+    line-height: normal;
+    width: 100%;
+}
+
+.main-search-intro .bold-font {
+    font-family: Raleway SemiBold;
+    font-size: 16px;
+    margin-bottom: 10px;
 }
