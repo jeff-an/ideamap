@@ -53,12 +53,13 @@ class SearchIntro extends React.Component {
                 <div className = "bold-font">
                     <a>Instructions</a>
                 </div>
-                <div className="regular-font-lg" style = {{ margin: '0 0 5 0'}} >
+                <div className = "regular-font-lg" style = {{ margin: '0 0 5 0'}} >
                     IdeaMap finds ideas related to your topic and uses them to construct concept maps. Click
                     {' '} <a onClick = { this.toggleExamples }>here</a> {' '}
                     to view examples.
                 </div>
-                <div id='search-examples' style={{ display:this.state.displayExamples }} className="regular-font-lg">
+                <div id = 'search-examples' style = {{ display:this.state.displayExamples }} className = "regular-font-lg">
+                    <div style = {{ height: '5px' }}/>
                     <div>{bullet}  <a>Trigonometry</a></div>
                     <div>{bullet}  <a>World War II</a></div>
                     <div>{bullet}  <a>Game of Thrones</a></div>
