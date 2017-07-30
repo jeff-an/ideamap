@@ -5,10 +5,11 @@
 }
 @import url("//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css");
 .main-search {
-    position: fixed;
+    position: absolute;
     top: 45%;
+    left: 0;
     width: 100%;
-    height: 20%;
+    height: 38%;
     overflow: hidden;
 }
 
@@ -19,11 +20,9 @@
 }
 
 .main-search .main-search-bar {
-    position: relative;
-    left: 0;
-    display: inline-block;
-    float: left;
-    width: 100%;
+    position: absolute;
+    left: 20%;
+    width: 60%;
     height: 100%;
     overflow: hidden;
 }
@@ -31,13 +30,14 @@
 .main-search .main-search-bar input {
     padding-bottom: 3px;
     font-family: Lekton, sans-serif;
-    font-size: 25px;
+    font-size: 20px;
     text-indent: 32px;
+    text-align: left;
 }
 
 .main-search .main-search-bar input {
+    height: 45px;
     width: 100%;
-    height: 100%;
     overflow: hidden;
     background: #fff;
     border: 2px solid #26094B;
@@ -46,23 +46,24 @@
 .main-search .main-search-bar .fa-search {
     position: absolute;
     color: #000;
-    top: 37%;
+    top: 15px;
     left: 14px;
 }
 
-.main-search .search-submit {
+.main-search .main-search-submit {
+    text-align: center;
     position: absolute;
     margin-top: 1%;
     left: calc(50% - 50px);
     display: inline-block;
-    height: 40px;
+    height: calc(15px + 14%);
     width: 100px;
     overflow: hidden;
     float: left;
     color: #26094B;
 }
 
-.main-search .search-submit #search-submit-button {
+.main-search .main-search-submit .btn {
     width: 100%;
     height: 100%;
     overflow: hidden;

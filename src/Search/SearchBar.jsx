@@ -5,13 +5,11 @@ import { Button } from 'react-bootstrap';
 class SearchBar extends React.Component {
     render() {
         return (
-            <div className = "main-search clear-fix">
-                <form id = {this.props.name} className = "main-search-form">
-                    <SearchBarInput
-                        name = "SearchBarInput"
-                        classes = "main-search-bar form-group"/>
+            <div className = {this.props.group + ' clear-fix'}>
+                <form className = {this.props.group + "-form"}>
+                    <SearchBarInput group = {this.props.group}/>
                 </form>
-                <SearchBarButton name = "search-submit"/>
+                <SearchBarButton group = {this.props.group}/>
             </div>
         );
     }
@@ -27,10 +25,9 @@ class SearchBarInput extends React.Component {
     }
     render() {
         return (
-            <div className = {this.props.classes}>
+            <div className = {this.props.group + '-bar' + ' form-group'}>
                 <span className = "fa fa-search fa-lg"></span>
                 <input
-                    id = {this.props.name}
                     type = "search"
                     className = "form-control"
                     autoCapitalize = "words"
@@ -45,8 +42,8 @@ class SearchBarInput extends React.Component {
 class SearchBarButton extends React.Component {
     render() {
         return (
-            <div className = {this.props.name}>
-                <Button id = {this.props.name + '-button'} className = "btn btn-primary" type = "submit">
+            <div className = {this.props.group + '-submit'}>
+                <Button className = "btn btn-primary" type = "submit">
                 Generate
                 </Button>
             </div>

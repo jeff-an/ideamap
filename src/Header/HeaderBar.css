@@ -1,0 +1,53 @@
+@font-face {
+    font-family: 'Play';
+    src: url('../Misc/fonts/Play/Play-Regular.ttf');
+}
+
+.app-header-bar {
+    position: fixed;
+    margin: 0;
+    text-align: left;
+    width: 100%;
+    background-color: rgba(0,0,0,0.6);
+    height: 60px;
+}
+
+.app-logo {
+    position: relative;
+    display: inline-block;
+    float: left;
+    right: 4px;
+    top: calc(50% - 20px);
+    animation: app-logo-spin infinite 20s linear;
+    height: 40px;
+    width: 50px;
+}
+
+.title-logo-container {
+    display: inline-block;
+    float: left;
+    position: absolute;
+    text-align: center;
+    left: calc(50% - 85px);
+    width: 170px;
+    height: 100%;
+}
+
+.app-title {
+    position: absolute;
+    right: 8px;
+    top: calc(50% - 20px);
+    display: inline-block;
+    width: 116.625px;
+    height: 40px;
+    float: left;
+    font-family: Play, sans-serif;
+    font-weight: 200;
+    font-size: 30px;
+    color: white;
+}
+
+@keyframes app-logo-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}

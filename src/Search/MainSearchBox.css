@@ -1,0 +1,20 @@
+@font-face {
+    font-family: Raleway Regular;
+    src: url(../Misc/fonts/Raleway/Raleway-Regular.ttf);
+}
+
+.main-search-intro {
+    font-family: Raleway Regular, sans-serif;
+    text-align: center;
+    line-height: normal;
+}
+
+.main-search-box {
+    position: absolute;
+    padding-top: 0;
+    left: 17.5%;
+    top: 18%;
+    width: 65%;
+    height: 50%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5), 0 6px 20px 0 rgba(0, 0, 0, 0.5);
+}
