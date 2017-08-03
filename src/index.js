@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import $ from 'jquery';
 import App from './App/App.js';
-import { default as gma } from './WikiServices/WikiSearcher.js';
+import { default as gma } from './WikiServices/TitleSearchService.js';
 import registerServiceWorker from './registerServiceWorker';
 
 ReactDOM.render(<App />, document.getElementById('root'), function() {

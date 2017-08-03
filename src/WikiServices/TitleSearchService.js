@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import WikiSearchStore from './WikiSearchStore.js';
+import TitleSearchStore from './TitleSearchStore.js';
 
 function cleanInput(str) {
     // eslint-disable-next-line
@@ -24,11 +24,14 @@ function openSearch(searchString, n) {
             redirects: 'resolve'
         }
     };
-    $.ajax(request).then(function(data) {
-        WikiSearchStore.dispatch({
-            type: 'SEARCH_RESULT',
+    $.ajax(request).then(function(response) {
+        if (typeof response !== 'object' || response.length < 4) {
+            return null;
+        }
+        TitleSearchStore.dispatch({
+            type: 'TITLE_SEARCH_RESULT',
             query: str,
-            response: data[1]
+            data: response
         });
     });
     return;
