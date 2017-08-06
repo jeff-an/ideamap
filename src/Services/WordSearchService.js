@@ -6,7 +6,6 @@ import $ from 'jquery';
 let collection = (function() {
     var limit = 0;
     var length = 0;
-    var set = false;
     var data = {};
     return {
         addElement: function(elm) {
@@ -20,13 +19,7 @@ let collection = (function() {
             return data;
         },
         setLimit: function(i) {
-            if (set === false) {
-                limit = i;
-                set = true;
-            } else {
-                console.error("Attempted to set the AJAX limit multiple times per run.");
-                return;
-            }
+            limit = i;
         },
         getLimit: function() {
             return limit;
@@ -35,7 +28,6 @@ let collection = (function() {
             data = {};
             limit = 0;
             length = 0;
-            set = false;
         }
     };
 })();
@@ -59,11 +51,16 @@ function success(data) {
         if (collection.getLength() >= collection.getLimit()) {
             this.resolve(collection.getData());
         }
+    } else {
+        collection.setLimit(collection.getLimit() - 1);
+        if (collection.getLength() >= collection.getLimit()) {
+            this.resolve(collection.getData());
+        }
     }
 }
 
 /*
-* Returns a promise that is resolved with the freqency values of all words in the array
+* Returns a promise that is resolved with the raw freqency values of all words in the array
 */
 function getAllWordFrequencies(list) {
     collection.clearData();

@@ -24,22 +24,41 @@ function openSearch(searchString, n) {
             redirects: 'resolve'
         }
     };
-    $.ajax(request).then(function(response) {
+    return $.ajax(request);
+}
+
+/*
+* Stores up to 10 top matching results in the title search store
+*/
+function getTopMatchingArticles(searchString) {
+    openSearch(searchString, 10).then(function(response) {
         if (typeof response !== 'object' || response.length < 4) {
             return null;
         }
         TitleSearchStore.dispatch({
             type: 'TITLE_SEARCH_RESULT',
-            query: str,
+            query: searchString,
             data: response
         });
     });
-    return;
 }
 
-function getTopMatchingArticles(searchString) {
-    openSearch(searchString, 10);
-    return;
+/*
+* Returns promise representing title/uri of a single article
+*/
+function getSingleArticle(searchString) {
+    return new Promise(function(resolve, reject) {
+        openSearch(searchString, 1).then(function(response) {
+            let regex = /\/wiki\//;
+            if (typeof response !== 'object' || response.length < 4) {
+                return reject(null);
+            }
+            return resolve({
+                title: (response[1])[0],
+                uri: ((response[3])[0].split(regex))[1]
+            });
+        });
+    });
 }
 
 export { getTopMatchingArticles as default };
