@@ -41,7 +41,7 @@ function tf_idf(words, uri) {
                 if (frequencies[word] <= 798) { // Prevent taking log of something less than 1
                     let idfFreq = frequencies[word] < 1 ? 1 : frequencies[word]; // Prevent division by 0
                     let rawFreq = (words.byWord)[word] == null || isNaN(words.byWord[word]) ? 0.01 : (words.byWord)[word];
-                    let tfidf = rawFreq * Math.pow(Math.log(798.15 / idfFreq), 2);
+                    let tfidf = rawFreq * Math.pow(798.15 / idfFreq, 2);
                     byWord[word] = tfidf;
                     all.push(word);
                 }

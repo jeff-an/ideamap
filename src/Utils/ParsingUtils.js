@@ -33,7 +33,7 @@ function getTokenFrequency(doc, title) {
 * Returns an array of string tokens not including punctuation or whitespace
 */
 function tokenize(doc) {
-    let regex = /(\\n|[\W])+/; // match any non-word character greedily
+    let regex = /({.*}|\\n|[\W])+/; // match any non-word character greedily
     let words = doc.split(regex);
     let result = [];
     // Discard any single-letter words and common words
@@ -53,10 +53,15 @@ function tokenize(doc) {
 }
 
 // Only get frequencies for terms that include returns true for
-function exclude(str, title) {
+function excludeImpl(str, title) {
     let titleTerms = title.split(/\s+/);
-    let lowerCaseStr = str.toLowerCase();
-    return titleTerms.map(e => lowerCaseStr.includes(e.toLowerCase())).reduce((a, b) => a && b);
+    return titleTerms.map(e => str.includes(e)).reduce((a, b) => a && b);
 }
 
-export { getTokenFrequency };
+function exclude(str, title) {
+    let lstr = str.toLowerCase();
+    let ltitle = title.toLowerCase();
+    return excludeImpl(lstr, ltitle) && excludeImpl(ltitle, lstr);
+}
+
+export { getTokenFrequency, exclude};

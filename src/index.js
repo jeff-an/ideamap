@@ -10,7 +10,7 @@ import $ from 'jquery';
 import { findRelatedConcepts } from './Graph/ModelBuilder.js';
 
 
-findRelatedConcepts('apple', 'apple', 1).then(data => {
+findRelatedConcepts('Linear_algebra', 'Linear algebra', 1).then(data => {
     console.log(data);
 });
 

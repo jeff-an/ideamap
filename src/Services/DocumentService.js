@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import { getTokenFrequency } from '../Utils/ParsingUtils.js';
+import { getTokenFrequency, exclude } from '../Utils/ParsingUtils.js';
 import { tf_idf, stdev } from '../Utils/StatUtils.js';
 
 function getBodyAndLinks(uri) {
@@ -32,7 +32,7 @@ function getBodyAndLinks(uri) {
 /*
 * Returns promise representing ranks of top terms in an article
 */
-function analyzeSingleArticle(uri, title) {
+function analyzeSingleArticle(uri, title, limit) {
     return new Promise(function(resolve, reject) {
         // Get body and links
         getBodyAndLinks(uri).then(function(obj) {
@@ -59,7 +59,7 @@ function analyzeSingleArticle(uri, title) {
 
             // Process links
             rawFrequencies.all = (rawFrequencies.all).slice(0, totalTerms < 30 ? totalTerms : 30);
-            let regex = /[^a-zA-Z0-9]+/;
+            let regex = /([^a-zA-Z0-9])+/;
             for (let element of links) {
                 for (let term of element.title.split(regex)) {
                     if (term.length > 3 && !rawFrequencies.all.includes(term.toLowerCase())) {
@@ -73,29 +73,43 @@ function analyzeSingleArticle(uri, title) {
             let allTerms = [];
             let byWord = {};
             tf_idf(rawFrequencies, uri).then(function(result) {
-                // Add links over 1 standard deviation away from the mean to results
+                // Add links to the results array if they are important enough
+                // Don't add if we already have a similar term
+                let include = function(link) {
+                    return !result.all.some(e => link.includes(e));
+                };
+
                 for (let element of links) {
                     let tfidfAvg = 0;
-                    let terms = element.title.split(regex);
+                    let lowerCaseTitle = element.title.toLowerCase();
+                    let terms = lowerCaseTitle.split(regex);
                     for (let term of terms) {
-                        if (term.length > 3 && (result.byWord)[term.toLowerCase()] != null) {
-                            tfidfAvg += (result.byWord)[term.toLowerCase()];
+                        if (term.length > 3 && (result.byWord)[term] != null) {
+                            tfidfAvg += (result.byWord)[term];
                         }
                     }
+                    // Assign an average tfidf for this term based on its individual words
                     tfidfAvg /= terms.length;
-                    (result.all).push(element.title);
-                    (result.byWord)[element.title] = tfidfAvg;
+
+                    // Push links to the results array if it isn't already there
+                    if (!(result.byWord)[lowerCaseTitle] && include(lowerCaseTitle)) {
+                        (result.all).push(lowerCaseTitle);
+                        (result.byWord)[lowerCaseTitle] = tfidfAvg;
+                    }
                 }
-                allTerms = (result.all).sort((a, b) => (result.byWord)[b] - (result.byWord)[a]).slice(0, 5);
+                allTerms = (result.all).sort((a, b) => (result.byWord)[b] - (result.byWord)[a]).slice(0, limit);
                 allTerms.forEach(e => byWord[e] = (result.byWord)[e]);
+
                 return resolve({
                     uri: uri,
                     all: allTerms,
                     byWord: byWord
                 });
+
             }, function(error) {
                 console.error("Error retrieving TFIDF frequencies: " + error);
             });
+
         }, function(error) {
             console.error("Error retrieving body and links: " + error);
         });
