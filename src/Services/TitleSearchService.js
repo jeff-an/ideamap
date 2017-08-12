@@ -32,8 +32,9 @@ function openSearch(searchString, n) {
 */
 function getTopMatchingArticles(searchString) {
     openSearch(searchString, 10).then(function(response) {
-        if (typeof response !== 'object' || response.length < 4) {
-            return null;
+        if (response == null || response.length < 4) {
+            console.error("Received malformed response: " + JSON.stringify(response));
+            throw new Error("Error occurred when searching for top wikipedia articles");
         }
         TitleSearchStore.dispatch({
             type: 'TITLE_SEARCH_RESULT',
@@ -50,15 +51,19 @@ function getSingleArticle(searchString) {
     return new Promise(function(resolve, reject) {
         openSearch(searchString, 1).then(function(response) {
             let regex = /\/wiki\//;
-            if (typeof response !== 'object' || response.length < 4) {
+            if (response == null || response.length < 4 || (response[3])[0] == undefined) {
+                console.error("Received malformed response: " + JSON.stringify(response));
                 return reject(null);
             }
             return resolve({
                 title: (response[1])[0],
-                uri: ((response[3])[0].split(regex))[1]
+                uri: decodeURIComponent(((response[3])[0].split(regex))[1])
             });
+        }, function(error) {
+            console.log(error.message);
+            throw new Error("Error occurred when searching for Wikipedia article.");
         });
     });
 }
 
-export { getTopMatchingArticles as default };
+export { getTopMatchingArticles as default, getSingleArticle };

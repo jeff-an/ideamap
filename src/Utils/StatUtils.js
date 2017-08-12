@@ -17,10 +17,20 @@ function stdev(arr) {
 /*
 * Computes term frequency-inverse document frequency for a list of words, returning promise
 */
-function tf_idf(words) {
+function tf_idf(words, uri) {
     // Words is an object contaning all (array of words) and byWord (map of word to frequency)
     return new Promise(function(resolve, reject) {
-        getAllWordFrequencies(words.all).then(function(frequencies) {
+        getAllWordFrequencies(words.all).then(function(response) {
+            let frequencies = {};
+            response.forEach(data => {
+                if (data == null || data[0] == null || data[0].tags == null) {
+                    return;
+                }
+                let frequencyString = (data[0].tags)[0];
+                let word = data[0].word;
+                frequencies[word] = parseFloat(frequencyString.match('[0-9.]+')[0]);
+            });
+
             if (frequencies == null || frequencies.length < 1) {
                 Error("Getting word frequencies failed");
                 return reject(null);
@@ -28,9 +38,9 @@ function tf_idf(words) {
             let all = [];
             let byWord = {};
             Object.keys(frequencies).forEach(function(word) {
-                if (frequencies[word] <= 798) {
+                if (frequencies[word] <= 798) { // Prevent taking log of something less than 1
                     let idfFreq = frequencies[word] < 1 ? 1 : frequencies[word]; // Prevent division by 0
-                    let rawFreq = (words.byWord)[word] == null ? 0.01 : (words.byWord)[word];
+                    let rawFreq = (words.byWord)[word] == null || isNaN(words.byWord[word]) ? 0.01 : (words.byWord)[word];
                     let tfidf = rawFreq * Math.pow(Math.log(798.15 / idfFreq), 2);
                     byWord[word] = tfidf;
                     all.push(word);
@@ -41,7 +51,8 @@ function tf_idf(words) {
                 byWord: byWord,
             });
         }, function(error) {
-            console.log(error);
+            console.error(error);
+            return reject(null);
         });
     });
 }

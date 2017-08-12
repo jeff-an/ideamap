@@ -20,7 +20,8 @@ function getBodyAndLinks(uri) {
         };
         $.ajax(request).then(function(data) {
             if (data == null || data.query == null || data.query.pages == null) {
-                reject(0);
+                console.error("Malformed response when retrieving body and links: " + JSON.stringify(data));
+                return reject(null);
             }
             let articleNum = Object.keys(data.query.pages)[0];
             return resolve((data.query.pages)[articleNum]);
@@ -31,20 +32,34 @@ function getBodyAndLinks(uri) {
 /*
 * Returns promise representing ranks of top terms in an article
 */
-function analyzeSingleArticle(uri) {
+function analyzeSingleArticle(uri, title) {
     return new Promise(function(resolve, reject) {
         // Get body and links
         getBodyAndLinks(uri).then(function(obj) {
-            // Tokenize and get raw frequencies
+            // Check return object structure
+            if (obj == null) {
+                console.error("Received null response when getting article body/links.");
+                throw new Error("JSON get request resulted in null object");
+            }
             let extract = obj.extract;
             let links = obj.links;
-            let rawFrequencies = getTokenFrequency(extract);
+            if (extract == null || links == null) {
+                console.error("Received malformed response when getting article body/links: " + JSON.stringify(obj));
+                return resolve({
+                    uri: uri,
+                    all: [],
+                    byWord: {}
+                });
+            }
+
+            // Tokenize and get raw frequencies
+            let rawFrequencies = getTokenFrequency(extract, title);
             let totalTerms = rawFrequencies.all.length;
             let linkTerms = [];
 
             // Process links
             rawFrequencies.all = (rawFrequencies.all).slice(0, totalTerms < 30 ? totalTerms : 30);
-            let regex = /[^a-zA-Z]+/;
+            let regex = /[^a-zA-Z0-9]+/;
             for (let element of links) {
                 for (let term of element.title.split(regex)) {
                     if (term.length > 3 && !rawFrequencies.all.includes(term.toLowerCase())) {
@@ -57,7 +72,7 @@ function analyzeSingleArticle(uri) {
             // Get tf-idf
             let allTerms = [];
             let byWord = {};
-            tf_idf(rawFrequencies).then(function(result) {
+            tf_idf(rawFrequencies, uri).then(function(result) {
                 // Add links over 1 standard deviation away from the mean to results
                 for (let element of links) {
                     let tfidfAvg = 0;
@@ -71,15 +86,18 @@ function analyzeSingleArticle(uri) {
                     (result.all).push(element.title);
                     (result.byWord)[element.title] = tfidfAvg;
                 }
-                allTerms = (result.all).sort((a, b) => (result.byWord)[b] - (result.byWord)[a]).slice(0, 8);
+                allTerms = (result.all).sort((a, b) => (result.byWord)[b] - (result.byWord)[a]).slice(0, 5);
                 allTerms.forEach(e => byWord[e] = (result.byWord)[e]);
                 return resolve({
+                    uri: uri,
                     all: allTerms,
                     byWord: byWord
                 });
             }, function(error) {
-                console.log(error);
+                console.error("Error retrieving TFIDF frequencies: " + error);
             });
+        }, function(error) {
+            console.error("Error retrieving body and links: " + error);
         });
     });
 }
