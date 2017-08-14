@@ -1,5 +1,3 @@
-import { createStore } from 'redux';
-
 const initialState = {
     query: "",
     total: 0,
@@ -8,7 +6,7 @@ const initialState = {
     allResults: []
 };
 
-function titleSearch(state = initialState, action) {
+function titleSearchReducer(state = initialState, action) {
     switch(action.type) {
         case 'TITLE_SEARCH_RESULT':
             let data = action.data;
@@ -33,6 +31,4 @@ function titleSearch(state = initialState, action) {
     }
 }
 
-let store = createStore(titleSearch);
-
-export default store;
+export default titleSearchReducer;

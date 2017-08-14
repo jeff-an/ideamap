@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import TitleSearchStore from './TitleSearchStore.js';
+import store from '../Store/CentralStore.js';
 
 function cleanInput(str) {
     // eslint-disable-next-line
@@ -36,7 +36,7 @@ function getTopMatchingArticles(searchString) {
             console.error("Received malformed response: " + JSON.stringify(response));
             throw new Error("Error occurred when searching for top wikipedia articles");
         }
-        TitleSearchStore.dispatch({
+        store.dispatch({
             type: 'TITLE_SEARCH_RESULT',
             query: searchString,
             data: response
@@ -57,7 +57,8 @@ function getSingleArticle(searchString) {
             }
             return resolve({
                 title: (response[1])[0],
-                uri: decodeURIComponent(((response[3])[0].split(regex))[1])
+                uri: decodeURIComponent(((response[3])[0].split(regex))[1]),
+                summary: response[2][0]
             });
         }, function(error) {
             console.log(error.message);

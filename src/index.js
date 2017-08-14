@@ -7,12 +7,15 @@ import { analyzeSingleArticle } from './Services/DocumentService.js';
 import { getAllWordFrequencies } from './Services/WordSearchService.js';
 import registerServiceWorker from './registerServiceWorker';
 import $ from 'jquery';
-import { findRelatedConcepts } from './Graph/ModelBuilder.js';
+import { buildGraphModel } from './Graph/ModelBuilder.js';
+import store from './Store/CentralStore.js';
 
-
-findRelatedConcepts('Linear_algebra', 'Linear algebra', 1).then(data => {
-    console.log(data);
-});
+buildGraphModel({
+    title: 'Linear algebra',
+    uri: 'Linear_algebra',
+    summary: "Linear algebra is great!"
+}, 1);
+store.subscribe(() => console.log(store.getState()));
 
 ReactDOM.render(<App />, document.getElementById('root'), function() {
     $('#SearchBarInput').focus();

@@ -128,6 +128,9 @@ var $q = (function() {
                             }
                             // Recurse with the new argument list
                             bfs(toRequeue, resolve);
+
+                        }, function(rejection) {
+                            console.error("Async Queue Error: Requeue promise was rejeted with reason " + rejection);
                         });
                     } else {
                         let index = queue.indexOf(element);
@@ -142,6 +145,8 @@ var $q = (function() {
                             });
                         }
                     }
+                }, function(rejection) {
+                    console.error("Async Queue Error: Callback promise was rejected with reason " + rejection);
                 });
             });
         });
