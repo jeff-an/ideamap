@@ -5,7 +5,6 @@ import fade from 'fade';
 import MainSearchBox from './MainSearchBox';
 import MainGraphBox from './MainGraphBox';
 import VisibleSearchResults from './SearchResults';
-import getTopMatchingArticles from '../Services/TitleSearchService.js';
 import store from '../Store/CentralStore.js';
 import {buildGraphModel} from '../Graph/ModelBuilder.js';
 
@@ -16,13 +15,13 @@ class MainBody extends React.Component {
         super(props);
         this.state = {
             addedChildName: "None",
-            addedChild: null
+            addedChild: ""
         };
         this.onSearchSubmit = this.onSearchSubmit.bind(this);
     }
 
     renderSearchResults() {
-        if (this.state.addedChild === null) {
+        if (this.state.addedChild === "") {
             this.setState({
                 addedChildName: 'SearchResults',
                 addedChild: <VisibleSearchResults onArticleSelect={(articleObj) => this.onArticleSelect(articleObj)}/>
@@ -32,14 +31,7 @@ class MainBody extends React.Component {
         $('.search-results-box').css('opacity', '1'); // Remove any previous opacity setting
     }
 
-    onSearchSubmit(searchText) {
-        if (searchText.length < 3) {
-            alert('Please enter at least three characters.');
-            return;
-        }
-        // Begin async action to get search results
-        getTopMatchingArticles(searchText);
-
+    onSearchSubmit() {
         // Visual cues
         let searchBox = document.querySelector('.main-search-box');
         fade.out(searchBox, 200, function() {

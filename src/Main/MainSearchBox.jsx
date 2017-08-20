@@ -1,14 +1,14 @@
 import React from 'react';
 import $ from 'jquery';
 import fade from 'fade';
-
 import { Button } from 'react-bootstrap';
+
+import getTopMatchingArticles from '../Services/TitleSearchService.js';
 
 import './SearchBar.css';
 import './MainSearchBox.css';
 
 let bullet = String.fromCharCode(9679);
-
 
 class MainSearchBox extends React.Component {
     constructor(props) {
@@ -91,7 +91,14 @@ class SearchBar extends React.Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        this.props.handleSubmit(this.state.value);
+        let searchText = this.state.value;
+        if (searchText.length < 3) {
+            alert('Please enter at least three characters.');
+            return;
+        }
+        // Begin async action to get search results
+        getTopMatchingArticles(searchText);
+        this.props.handleSubmit();
     }
 
     render() {
