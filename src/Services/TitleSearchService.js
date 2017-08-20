@@ -31,7 +31,7 @@ function openSearch(searchString, n) {
 * Stores up to 10 top matching results in the title search store
 */
 function getTopMatchingArticles(searchString) {
-    openSearch(searchString, 10).then(function(response) {
+    openSearch(searchString, 8).then(function(response) {
         if (response == null || response.length < 4) {
             console.error("Received malformed response: " + JSON.stringify(response));
             throw new Error("Error occurred when searching for top wikipedia articles");
@@ -57,7 +57,7 @@ function getSingleArticle(searchString) {
             }
             return resolve({
                 title: (response[1])[0],
-                uri: decodeURIComponent(((response[3])[0].split(regex))[1]),
+                uri: (decodeURIComponent(response[3][0]).split(regex))[1],
                 summary: response[2][0]
             });
         }, function(error) {

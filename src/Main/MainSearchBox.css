@@ -8,12 +8,22 @@
     src: url(../Misc/fonts/Raleway/Raleway-SemiBold.ttf);
 }
 
+@font-face {
+    font-family: Montserrat ExtraLight;
+    src: url(../Misc/fonts/Montserrat/Montserrat-ExtraLight.ttf);
+}
+
+@font-face {
+    font-family: Montserrat Light;
+    src: url(../Misc/fonts/Montserrat/Montserrat-Light.ttf);
+}
+
 .main-search-box {
-    min-height: 300px;
+    min-height: 320px;
     position: absolute;
     padding-top: 0;
     left: 17.5%;
-    top: 18%;
+    top: 20%;
     width: 65%;
     height: 45%;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5), 0 6px 20px 0 rgba(0, 0, 0, 0.5);
@@ -24,12 +34,12 @@
     bottom: 15px;
     left: 0;
     width: 100%;
-    height: calc(60px + 16%);
+    height: calc(70px + 16%);
     overflow: hidden;
 }
 
 .main-search-box .main-search-intro {
-    font-family: Raleway Regular, sans-serif;
+    font-family: Montserrat ExtraLight, sans-serif;
     text-align: center;
     line-height: 14px;
     overflow: hidden;
@@ -59,4 +69,9 @@
     font-family: Raleway SemiBold;
     font-size: 16px;
     margin-bottom: 10px;
+}
+
+.graph-root {
+    position: absolute;
+    top: 0;
 }

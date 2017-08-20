@@ -4,8 +4,12 @@ const initialState = {
         byId: {}
     },
     connections: [],
-    subnodes: {},
+    subnodes: {
+        all: [],
+        byId: {}
+    },
     status: 'pending',
+    meta: {},
     debug: {}
 };
 
@@ -18,21 +22,27 @@ function graphModelReducer(state = initialState, action) {
                     byId: Object.assign(state.nodes.byId, action.nodes.byId)
                 },
                 connections: state.connections.concat(action.connections),
-                subnodes: Object.assign(state.subnodes, action.subnodes),
+                subnodes: {
+                    all: state.subnodes.all.concat(action.subnodes.all),
+                    byId: Object.assign(state.nodes.byId, action.nodes.byId)
+                },
                 status: 'success',
-                debug: state.debug
+                meta: action.meta,
+                debug: {}
             };
 
-        /* jshint ignore:start */
+        case 'CLEAR_GRAPH_MODEL':
+            return initialState;
+
         case 'GRAPH_MODEL_GEN_FAILURE':
-            return {
-                ...state,
+            return Object.assign(initialState, {
+                status: 'failure',
+                meta: action.meta,
                 debug: {
                     query: action.query,
                     error: action.error
                 }
-            };
-            /* jshint ignore:end */
+            });
 
         default:
             return state;

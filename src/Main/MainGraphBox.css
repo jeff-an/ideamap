@@ -1,0 +1,41 @@
+.graph-box {
+    background-color: white;
+    overflow-y: auto;
+    position: absolute;
+    top: calc(50% - 75px);
+    left: calc(50% - 100px);
+    width: 200px;
+    height: 150px;
+    padding: 10px !important;
+    font-family: Raleway Regular;
+    font-size: 1.45vh;
+    text-align: center;
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.loader {
+    border: 8px solid #f3f3f3; /* Light grey */
+    border-top: 8px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 2s linear infinite;
+}
+
+.graph-root {
+    position: static;
+    display: flex;
+    background-color: #3d3838;
+    height: 90%;
+    width: 80%;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

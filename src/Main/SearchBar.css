@@ -16,6 +16,7 @@
     left: 17.5%;
     width: 65%;
     height: 100%;
+    top: 10px;
     overflow: hidden;
 }
 
@@ -45,7 +46,7 @@
 .main-search .main-search-submit {
     text-align: center;
     position: absolute;
-    margin-top: 20px;
+    bottom: 10px;
     left: calc(50% - 45px);
     height: calc(25px + 10%);
     width: 90px;

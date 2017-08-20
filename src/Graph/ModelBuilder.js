@@ -59,7 +59,11 @@ function buildGraphModel(articleObj, maxDepth) {
             byId: {}
         };
         let connections = [];
-        let subnodes = {};
+        let subnodes = {
+            all: [],
+            byId: {}
+        };
+        let meta = articleObj;
 
         // Add root first (it is the only node for which we have no extract info)
         let rootNode = {
@@ -109,13 +113,15 @@ function buildGraphModel(articleObj, maxDepth) {
             type: 'GRAPH_MODEL_GEN_SUCCESS',
             nodes: nodes,
             connections: connections,
-            subnodes: subnodes
+            subnodes: subnodes,
+            meta: meta
         });
 
     }, function(error) {
         console.error(error);
         store.dispatch({
             type: 'GRAPH_MODEL_GEN_FAILURE',
+            meta: articleObj,
             query: {
                 uri: articleObj.uri,
                 title: articleObj.title,
