@@ -17,9 +17,9 @@ class MainSearchBox extends React.Component {
     render() {
         return (
             <div className = 'well well-lg main-search-box'>
-                <SearchIntro group = "main-search"/>
+                <SearchIntro />
                 <br/>
-                <SearchBar group = "main-search" handleSubmit={this.props.handleSubmit}/>
+                <SearchBar handleSubmit={this.props.handleSubmit}/>
             </div>
         );
     }
@@ -52,7 +52,7 @@ class SearchIntro extends React.Component {
 
     render() {
         return (
-            <div className = {this.props.group + '-intro'}>
+            <div className = "main-search-intro">
                 <h4 style = {{ marginTop: '5px'}}><b>I</b>ntelligent <b>DE</b>finition <b>A</b>ssociative</h4>
                 <h1 style = {{ margin: '0 0 5 0', fontSize: '40px', fontFamily: 'Montserrat Light, sans-serif' }}>
                     Concept Mapping.
@@ -96,10 +96,10 @@ class SearchBar extends React.Component {
 
     render() {
         return (
-            <div className = {this.props.group + ' clear-fix'}>
-                <form className = {this.props.group + "-form"} onSubmit={this.handleSubmit}>
-                    <SearchBarInput group = {this.props.group} handleChange = {(value) => this.handleChange(value)} />
-                    <SearchBarButton group = {this.props.group}/>
+            <div className = "main-search clear-fix">
+                <form className = "main-search-form" onSubmit={this.handleSubmit}>
+                    <SearchBarInput handleChange = {(value) => this.handleChange(value)} />
+                    <SearchBarButton />
                 </form>
             </div>
         );
@@ -116,7 +116,7 @@ class SearchBarInput extends React.Component {
 
     render() {
         return (
-            <div className = {this.props.group + '-bar'}>
+            <div className = "main-search-bar">
                 <span className = "fa fa-search fa-lg"></span>
                 <input
                     type = "search"
@@ -134,7 +134,7 @@ class SearchBarInput extends React.Component {
 class SearchBarButton extends React.Component {
     render() {
         return (
-            <div className = {this.props.group + '-submit'}>
+            <div className = "main-search-submit">
                 <Button className = "btn btn-primary" type="submit">
                 Generate
                 </Button>
