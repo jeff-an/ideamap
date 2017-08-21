@@ -43,7 +43,9 @@ function findRelatedConcepts(articleObj, maxDepth) {
         return toRequeue;
     }
 
-    $q.init(maxDepth);
+    $q.init({
+        maxDepth: maxDepth
+    });
     $q.enqueue(analyzeSingleArticle, [articleObj.uri, articleObj.title, 5], mapWordToMetaData, requeue);
     return $q.begin();
 }
