@@ -1,4 +1,3 @@
-import HashMap from 'hashmap';
 /*
 * Asynchronous queue implementation where elements are only removed after their callbacks return,
 * allowing for an ordering roughly resembling BFS
@@ -12,7 +11,10 @@ var $q = (function() {
     var processed = 0;
     var all = [];
     var byLayer = {};
-    var links = null;
+    var transformedDataMap = {};
+    var requeueTermsMap = {};
+    var mapTransformedDataToObj = null;
+    var mapRequeueTermsToObj = null;
 
     function destroy() {
         let clear = () => {
@@ -24,7 +26,6 @@ var $q = (function() {
             byLayer = {};
             processed = 0;
             promise = null;
-            links = null;
         };
         promise.then(clear, clear);
     }
@@ -59,6 +60,12 @@ var $q = (function() {
             element.promise().then((data) => {
                 // Use Promise.resolve in case callback returns a promise
                 Promise.resolve(element.callback(data)).then(function(transformedData) {
+                    console.log(transformedData);
+                    // Update transformed data map
+                    if (mapTransformedDataToObj !== null) {
+                        Object.assign(transformedDataMap, mapTransformedDataToObj(transformedData, previous));
+                    }
+
                     // Attempt to define a __previous property on the object
                     if (typeof transformedData === 'object' && typeof transformedData._previous === 'undefined') {
                         try {
@@ -83,13 +90,16 @@ var $q = (function() {
                         byLayer[layer].push(transformedData);
                     }
 
-                    // Update links HashMap
-                    links.set(transformedData, previous);
-
                     // Iteratively enqueue more items according to callbacks
                     if (layer < maxDepth) {
                         // Use Promise.resolve in case requeue returns a promise
                         Promise.resolve(element.requeue(transformedData)).then(function(requeueTerms) {
+
+                            // Update requeue terms data map
+                            if (mapRequeueTermsToObj !== null) {
+                                Object.assign(requeueTermsMap, mapRequeueTermsToObj(requeueTerms, transformedData, previous));
+                            }
+
                             if (requeueTerms == null || typeof requeueTerms === 'object' && requeueTerms.length === 0) {
                                 requeueTerms = [];
                             }
@@ -123,7 +133,9 @@ var $q = (function() {
                             if (queue.length === 0 && toRequeue.length === 0) {
                                 return resolve({
                                     all: all,
-                                    byLayer: byLayer
+                                    byLayer: byLayer,
+                                    requeueTermsMap: requeueTermsMap,
+                                    transformedDataMap: transformedDataMap
                                 });
                             }
                             // Recurse with the new argument list
@@ -141,7 +153,8 @@ var $q = (function() {
                             resolve({
                                 all: all,
                                 byLayer: byLayer,
-                                links: links
+                                requeueTermsMap: requeueTermsMap,
+                                transformedDataMap: transformedDataMap
                             });
                         }
                     }
@@ -153,15 +166,18 @@ var $q = (function() {
     }
 
     return {
-        init: function(max = Infinity, lim = Infinity) {
+        init: function(obj) {
             if (!initialized) {
                 promise = null;
                 queue = [];
                 all = [];
                 byLayer = {};
-                links = new HashMap();
-                maxDepth = max;
-                limit = lim;
+                transformedDataMap = {};
+                requeueTermsMap = {};
+                maxDepth = obj.maxDepth == undefined || typeof obj.maxDepth !== 'number' ? Infinity : obj.maxDepth;
+                limit = obj.limit == undefined || typeof obj.limit !== 'number' ? Infinity : obj.limit;
+                mapTransformedDataToObj = obj.mapTransformedDataToObj == undefined || typeof obj.mapTransformedDataToObj !== 'function' ? (e) => e : obj.mapTransformedDataToObj;
+                mapRequeueTermsToObj = obj.mapRequeueTermsToObj == undefined || typeof obj.mapRequeueTermsToObj !== 'function' ? (e) => e : obj.mapRequeueTermsToObj;
                 processed = 0;
                 initialized = true;
             } else {
