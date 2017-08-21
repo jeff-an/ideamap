@@ -176,8 +176,8 @@ var $q = (function() {
                 requeueTermsMap = {};
                 maxDepth = obj.maxDepth == undefined || typeof obj.maxDepth !== 'number' ? Infinity : obj.maxDepth;
                 limit = obj.limit == undefined || typeof obj.limit !== 'number' ? Infinity : obj.limit;
-                mapTransformedDataToObj = obj.mapTransformedDataToObj == undefined || typeof obj.mapTransformedDataToObj !== 'function' ? (e) => e : obj.mapTransformedDataToObj;
-                mapRequeueTermsToObj = obj.mapRequeueTermsToObj == undefined || typeof obj.mapRequeueTermsToObj !== 'function' ? (e) => e : obj.mapRequeueTermsToObj;
+                mapTransformedDataToObj = obj.mapTransformedDataToObj == undefined || typeof obj.mapTransformedDataToObj !== 'function' ? null : obj.mapTransformedDataToObj;
+                mapRequeueTermsToObj = obj.mapRequeueTermsToObj == undefined || typeof obj.mapRequeueTermsToObj !== 'function' ? null : obj.mapRequeueTermsToObj;
                 processed = 0;
                 initialized = true;
             } else {

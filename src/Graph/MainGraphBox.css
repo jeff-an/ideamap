@@ -1,4 +1,5 @@
 .graph-box {
+    display: flex;
     background-color: white;
     overflow-y: auto;
     position: absolute;

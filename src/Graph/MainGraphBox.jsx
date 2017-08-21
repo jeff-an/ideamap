@@ -1,31 +1,47 @@
 import React from 'react';
 import $ from 'jquery';
 import fade from 'fade';
+import ReactDOM from 'react-dom';
+import MindMap from 'react-mindmap';
 import { connect } from 'react-redux';
 
-import renderGraph from '../Graph/ConceptMap.jsx';
+import './ConceptMap.css';
 import store from '../Store/CentralStore.js';
 import './MainGraphBox.css';
 
-import { nodes, connections } from './map.json';
 
 class GraphRoot extends React.Component {
+    constructor(props) {
+        super(props);
+    }
     shouldComponentUpdate() {
         return false;
     }
     render() {
         return (
-            <div className = "graph-root well" id = "GraphRoot"> </div>
+            <div className = "graph-root well" id = "GraphRoot" style = {{ opacity: 0 }}> </div>
+        );
+    }
+}
+
+class ConceptMap extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+    render() {
+        return (
+          <MindMap
+            nodes={this.props.nodes}
+            connections={this.props.connections}
+            />
         );
     }
 }
 
 const initialState = {
-    isDisplayed: true,
-    isLoading: false,
+    isLoading: true,
     isGraphDisplayed: false,
     isErrorDisplayed: false,
-    isInitialized: false
 };
 
 class GraphBox extends React.Component {
@@ -34,38 +50,40 @@ class GraphBox extends React.Component {
         this.state = initialState;
         this.onGraphLoad = this.onGraphLoad.bind(this);
         this.resetBoxVisibility = this.resetBoxVisibility.bind(this);
-        this.animateInitialRender = this.animateInitialRender.bind(this);
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        if (nextProps.status === 'pending' || this.state.isInitialized) {
-            // Still loading or already finished
-            return false;
+        console.log("Tried to update");
+        if (this.props != nextProps || this.state != nextState) {
+            return true;
         }
-        return true;
     }
 
     // Callback for graph generation result changes
-    componentWillUpdate(nextProps, nextState) {
-        console.log(nextProps, nextState);
-        if (nextProps.status === 'success') {
+    componentDidUpdate(prevProps, prevState) {
+        console.log("did update: ", prevProps, prevState);
+        if (prevProps.status !== "success" && this.props.status === 'success') {
             this.onGraphLoad();
         }
         // TODO: error handling here
     }
 
     onGraphLoad() {
+        console.log("calling on graph load");
         this.setState({
             isLoading: false,
-            isInitialized: true
+            isErrorDisplayed: false,
+            isGraphDisplayed: true,
         });
-        fade.in(document.querySelector('.graph-box'), 350, () => {
-            this.setState({
-                isErrorDisplayed: false,
-                isGraphDisplayed: true
-            });
+        let graphRoot = document.getElementById('GraphRoot');
+        console.log(this.props.nodes);
+        ReactDOM.render(
+            <ConceptMap nodes = {this.props.nodes} connections = {this.props.connections} />,
+            graphRoot
+        );
+        fade.in(graphRoot, 350, () => {
+            graphRoot.style.opacity = 1;
         });
-        renderGraph(nodes, connections);
         $("div[data-reactroot='']").css({
             width: '100%',
             height: '100%'
@@ -84,10 +102,6 @@ class GraphBox extends React.Component {
     }
 
     componentDidMount() {
-        this.animateInitialRender();
-    }
-
-    animateInitialRender() {
         let graphBox = document.querySelector('.graph-box');
         $(graphBox).animate({
             top: '5%',
@@ -95,17 +109,11 @@ class GraphBox extends React.Component {
             width: '70%',
             height: '90%'
         }, 350);
-        fade.in(graphBox, 350, () => {
-            this.setState({
-                isLoading: true
-            });
-        });
-        console.log('done');
     }
 
     render() {
         return (
-        <div className='well well-lg graph-box' id="GraphBox" style={{ display: this.state.isDisplayed ? 'flex' : 'none' }}>
+        <div className='well well-lg graph-box' id="GraphBox" >
             <div className = 'loader' style = {{ display: this.state.isLoading ? 'block' : 'none' }}></div>
             <GraphRoot />
         </div>
@@ -113,10 +121,15 @@ class GraphBox extends React.Component {
     }
 }
 
+//    <ConceptMap nodes={this.props.nodes} connections={this.props.connections} style = {{ display: this.state.isGraphDisplayed ? 'block' : 'none'}} />
+
 const mapStateToProps = (state) => {
+    console.log(state);
     return ({
         status: state.graphModel.status,
-        meta: state.graphModel.meta
+        meta: state.graphModel.meta,
+        nodes: state.graphModel.nodes.all,
+        connections: state.graphModel.connections
     });
 };
 

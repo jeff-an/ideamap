@@ -3,7 +3,7 @@ import $ from 'jquery';
 import fade from 'fade';
 
 import MainSearchBox from './MainSearchBox';
-import MainGraphBox from './MainGraphBox';
+import MainGraphBox from '../Graph/MainGraphBox';
 import VisibleSearchResults from './SearchResults';
 import store from '../Store/CentralStore.js';
 import {buildGraphModel} from '../Graph/ModelBuilder.js';
@@ -41,14 +41,14 @@ class MainBody extends React.Component {
     }
 
     onArticleSelect(articleObj) {
+        store.dispatch({
+            type: 'CLEAR_GRAPH_MODEL'
+        });
         fade.out($('.search-results-box').get(0), 200);
         if (this.state.addedChildName !== 'Graph') {
             this.setState({
                 addedChildName: 'Graph',
                 addedChild: <MainGraphBox />
-            });
-            store.dispatch({
-                type: 'CLEAR_GRAPH_MODEL'
             });
         } else {
             console.error("Triggered article select while graph box is already rendered.");

@@ -10,7 +10,6 @@ class ConceptMap extends React.Component {
     constructor(props) {
         super(props);
     }
-
     render() {
         return (
           <MindMap
@@ -36,4 +35,4 @@ function renderGraph(nodes, connections) {
     );
 }
 
-export default renderGraph;
+export { renderGraph as default, ConceptMap };

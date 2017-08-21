@@ -1,4 +1,0 @@
-{
-    "nodes": [{"text":"Hello","url":"http://en.wikipedia.org/wiki/Hello","note":"Hello is a salutation or greeting in the English language. It is first attested in writing from 1826."}, {"text":"Hollo","url":"http://en.wikipedia.org/wiki/Hollo","note":"Hollo is a Finnish surname. Notable people with the surname include:"}],
-    "connections":[{"source": "Hello", "target": "Hollo"}]
-}
