@@ -40,6 +40,7 @@ class ConceptMap extends React.Component {
 
 const initialState = {
     isLoading: true,
+    size: 1,
     isGraphDisplayed: false,
     isErrorDisplayed: false,
 };
@@ -53,7 +54,6 @@ class GraphBox extends React.Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        console.log("Tried to update");
         if (this.props != nextProps || this.state != nextState) {
             return true;
         }
@@ -61,7 +61,6 @@ class GraphBox extends React.Component {
 
     // Callback for graph generation result changes
     componentDidUpdate(prevProps, prevState) {
-        console.log("did update: ", prevProps, prevState);
         if (prevProps.status !== "success" && this.props.status === 'success') {
             this.onGraphLoad();
         }
@@ -69,14 +68,20 @@ class GraphBox extends React.Component {
     }
 
     onGraphLoad() {
-        console.log("calling on graph load");
         this.setState({
             isLoading: false,
             isErrorDisplayed: false,
             isGraphDisplayed: true,
         });
+        let graphBox = document.querySelector('.graph-box');
+        $(graphBox).animate({
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%'
+        });
+        graphBox.setAttribute('class', 'graph-box'); // Remove well classes
         let graphRoot = document.getElementById('GraphRoot');
-        console.log(this.props.nodes);
         ReactDOM.render(
             <ConceptMap nodes = {this.props.nodes} connections = {this.props.connections} />,
             graphRoot
@@ -121,10 +126,7 @@ class GraphBox extends React.Component {
     }
 }
 
-//    <ConceptMap nodes={this.props.nodes} connections={this.props.connections} style = {{ display: this.state.isGraphDisplayed ? 'block' : 'none'}} />
-
 const mapStateToProps = (state) => {
-    console.log(state);
     return ({
         status: state.graphModel.status,
         meta: state.graphModel.meta,

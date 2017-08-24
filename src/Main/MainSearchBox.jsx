@@ -8,7 +8,11 @@ import getTopMatchingArticles from '../Services/TitleSearchService.js';
 import './SearchBar.css';
 import './MainSearchBox.css';
 
-let bullet = String.fromCharCode(9679);
+/** Global variables **/
+
+const bullet = String.fromCharCode(9679);
+
+/** Components **/
 
 class MainSearchBox extends React.Component {
     constructor(props) {
@@ -17,7 +21,7 @@ class MainSearchBox extends React.Component {
     render() {
         return (
             <div className = 'well well-lg main-search-box'>
-                <SearchIntro />
+                <SearchIntro onExampleSelect={this.props.onExampleSelect}/>
                 <br/>
                 <SearchBar handleSubmit={this.props.handleSubmit}/>
             </div>
@@ -31,7 +35,30 @@ class SearchIntro extends React.Component {
         this.state = {
             displayExamples: "none"
         };
+        this.examples = [
+            {
+                title:'Trigonometry',
+                uri: 'Trigonometry',
+                summary: 'Trigonometry (from Greek trigōnon, "triangle" and metron, "measure") is a branch of mathematics that studies relationships involving lengths and angles of triangles.'
+            },
+            {
+                title: 'World War II',
+                uri: 'World_War_II',
+                summary: "World War II (often abbreviated to WWII or WW2), also known as the Second World War, was a global war that lasted from 1939 to 1945, although related conflicts began earlier. It involved the vast majority of the world's countries—including all of the great powers—eventually forming two opposing military alliances: the Allies and the Axis."
+            },
+            {
+                title: 'Game of Thrones',
+                uri: 'Game_of_thrones',
+                summary: "Game of Thrones is an American fantasy drama television series created by David Benioff and D. B. Weiss. It is an adaptation of A Song of Ice and Fire, George R. R. Martin's series of fantasy novels, the first of which is A Game of Thrones."
+            }
+        ];
         this.toggleExamples = this.toggleExamples.bind(this);
+        this.broadcastExampleSelect = this.broadcastExampleSelect.bind(this);
+    }
+
+    broadcastExampleSelect(id) {
+        let articleObj = this.examples[id];
+        this.props.onExampleSelect(articleObj);
     }
 
     toggleExamples() {
@@ -68,11 +95,28 @@ class SearchIntro extends React.Component {
                 </div>
                 <div id = 'search-examples' style = {{ display:this.state.displayExamples }} className = "regular-font-lg">
                     <div style = {{ height: '5px' }}/>
-                    <div>{bullet}  <a>Trigonometry</a></div>
-                    <div>{bullet}  <a>World War II</a></div>
-                    <div>{bullet}  <a>Game of Thrones</a></div>
+                    {this.examples.map((articleObj, index) => {
+                        return (
+                            <SearchExample broadcastExampleSelect={this.broadcastExampleSelect} exampleName={articleObj.title} id={index} />
+                        );
+                    })}
                 </div>
             </div>
+        );
+    }
+}
+
+class SearchExample extends React.Component {
+    constructor(props) {
+        super(props);
+        this.onClick = this.onClick.bind(this);
+    }
+    onClick() {
+        this.props.broadcastExampleSelect(this.props.id);
+    }
+    render() {
+        return (
+            <div onClick={this.onClick}> {bullet} <a> {this.props.exampleName} </a> </div>
         );
     }
 }
@@ -85,8 +129,8 @@ class SearchBar extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleChange(newVal) {
-        this.setState({ value: newVal });
+    handleChange(e) {
+        this.setState({ value: e.target.value });
     }
 
     handleSubmit(e) {
@@ -105,7 +149,7 @@ class SearchBar extends React.Component {
         return (
             <div className = "main-search clear-fix">
                 <form className = "main-search-form" onSubmit={this.handleSubmit}>
-                    <SearchBarInput handleChange = {(value) => this.handleChange(value)} />
+                    <SearchBarInput handleChange = {this.handleChange} />
                     <SearchBarButton />
                 </form>
             </div>
@@ -126,12 +170,13 @@ class SearchBarInput extends React.Component {
             <div className = "main-search-bar">
                 <span className = "fa fa-search fa-lg"></span>
                 <input
+                    value = {this.state.value}
                     type = "search"
                     className = "form-control"
                     autoCapitalize = "words"
                     maxLength = "30"
                     placeholder = {this.state.placeholder}
-                    onChange = {(event) => this.props.handleChange(event.target.value)}
+                    onChange = {this.props.handleChange}
                     autoComplete = "off" />
             </div>
         );

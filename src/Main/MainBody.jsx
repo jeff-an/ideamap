@@ -18,6 +18,7 @@ class MainBody extends React.Component {
             addedChild: ""
         };
         this.onSearchSubmit = this.onSearchSubmit.bind(this);
+        this.onExampleSelect = this.onExampleSelect.bind(this);
     }
 
     renderSearchResults() {
@@ -40,10 +41,33 @@ class MainBody extends React.Component {
         this.renderSearchResults();
     }
 
+    onExampleSelect(articleObj) {
+        // Fire async action
+        store.dispatch({
+            type: 'CLEAR_GRAPH_MODEL'
+        });
+        buildGraphModel(articleObj, 1);
+
+        // Visual cues
+        let searchBox = document.querySelector('.main-search-box');
+        fade.out(searchBox, 200, function() {
+            searchBox.style.display = 'none';
+        });
+        if (this.state.addedChildName !== 'Graph') {
+            this.setState({
+                addedChildName: 'Graph',
+                addedChild: <MainGraphBox />
+            });
+        } else {
+            console.error("Triggered article select while graph box is already rendered.");
+        }
+    }
+
     onArticleSelect(articleObj) {
         store.dispatch({
             type: 'CLEAR_GRAPH_MODEL'
         });
+        buildGraphModel(articleObj, 1);
         fade.out($('.search-results-box').get(0), 200);
         if (this.state.addedChildName !== 'Graph') {
             this.setState({
@@ -53,13 +77,12 @@ class MainBody extends React.Component {
         } else {
             console.error("Triggered article select while graph box is already rendered.");
         }
-        buildGraphModel(articleObj, 0);
     }
 
     render() {
         return (
             <div className="main-body">
-                <MainSearchBox handleSubmit={(query) => this.onSearchSubmit(query)}/>
+                <MainSearchBox onExampleSelect={this.onExampleSelect} handleSubmit={this.onSearchSubmit}/>
                 {this.state.addedChild}
             </div>
         );

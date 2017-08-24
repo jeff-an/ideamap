@@ -1,4 +1,23 @@
+@font-face {
+    font-family: Raleway Light;
+    src: url('../Misc/fonts/Raleway/Raleway-Light.ttf');
+}
+
 .mindmap-svg {
     width: 100%;
     height: 100%;
+}
+
+.mindmap-node > a {
+    background: royalblue !important;
+    color: white !important;
+    font-family: Raleway Light;
+}
+
+.mindmap-connection {
+    stroke: #615f5f !important;
+}
+
+.mindmap-emoji {
+    display: none;
 }

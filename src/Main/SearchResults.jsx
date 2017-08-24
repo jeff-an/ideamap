@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import $ from 'jquery';
 import fade from 'fade';
 
-import store from '../Store/CentralStore.js';
 import { buildGraphModel } from '../Graph/ModelBuilder.js';
 
 import 'bootstrap/dist/css/bootstrap.css';

@@ -12,7 +12,6 @@
     font-size: 1.45vh;
     text-align: center;
     z-index: 200;
-    display: flex;
     align-items: center;
     justify-content: center;
 }
@@ -21,6 +20,9 @@
     border: 8px solid #f3f3f3; /* Light grey */
     border-top: 8px solid #3498db; /* Blue */
     border-radius: 50%;
+    position: absolute;
+    top: calc(50% - 30px);
+    left: calc(50% - 30px);
     width: 60px;
     height: 60px;
     animation: spin 2s linear infinite;
@@ -31,7 +33,7 @@
     display: flex;
     background-color: #3d3838;
     height: 90%;
-    width: 80%;
+    width: 95%;
     align-items: center;
     justify-content: center;
 }

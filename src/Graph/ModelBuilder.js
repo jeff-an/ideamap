@@ -55,7 +55,7 @@ function findRelatedConcepts(articleObj, maxDepth) {
 */
 function buildGraphModel(articleObj, maxDepth) {
     findRelatedConcepts(articleObj, maxDepth).then(function(rawData) {
-        console.log(rawData);
+        console.log("Raw data for graph model", rawData);
         let nodes = {
             all: [],
             byId: {}
