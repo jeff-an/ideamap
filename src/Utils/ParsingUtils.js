@@ -7,9 +7,13 @@ function getTokenFrequency(doc, title) {
     let words = tokenize(doc);
     let hm = {};
     let max = 0;
+    let titleTerms = title.toLowerCase().split(/\s+/);
+    let exclude = function(word) {
+        return titleTerms.map(e => word.includes(e)).reduce((a, b) => a && b) || word.split(/\s+/).map(e => title.includes(e)).reduce((a, b) => a && b);
+    };
 
     for (let word of words) {
-        if (exclude(word, title)) {
+        if (exclude(word)) {
             continue;
         } else if (hm[word] === undefined) {
             hm[word] = 1;
@@ -52,16 +56,4 @@ function tokenize(doc) {
     return result;
 }
 
-// Only get frequencies for terms that include returns true for
-function excludeImpl(str, title) {
-    let titleTerms = title.split(/\s+/);
-    return titleTerms.map(e => str.includes(e)).reduce((a, b) => a && b);
-}
-
-function exclude(str, title) {
-    let lstr = str.toLowerCase();
-    let ltitle = title.toLowerCase();
-    return excludeImpl(lstr, ltitle) && excludeImpl(ltitle, lstr);
-}
-
-export { getTokenFrequency, exclude};
+export { getTokenFrequency };

@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import { getTokenFrequency, exclude } from '../Utils/ParsingUtils.js';
+import { getTokenFrequency } from '../Utils/ParsingUtils.js';
 import { tf_idf, stdev } from '../Utils/StatUtils.js';
 
 function getBodyAndLinks(uri) {

@@ -50,7 +50,14 @@ class GraphBox extends React.Component {
         super();
         this.state = initialState;
         this.onGraphLoad = this.onGraphLoad.bind(this);
-        this.resetBoxVisibility = this.resetBoxVisibility.bind(this);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (this.props.display === 'none' && nextProps.display !== 'none') {
+            // Component is being initially rendered, prepare for fade animation
+            $('.search-results-box').css('display', 'none');
+            $('.search-results-box').css('opacity', '1');
+        }
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -95,17 +102,6 @@ class GraphBox extends React.Component {
         });
     }
 
-    resetBoxVisibility() {
-        let graphBox = document.querySelector('.graph-box');
-        let initialCSS = {
-            top: 'calc(50% - 75px)',
-            width: '200px',
-            height: '150px'
-        };
-        Object.keys(initialCSS).forEach(e => graphBox.style[e] = initialCSS[e]);
-        this.setState(initialState);
-    }
-
     componentDidMount() {
         let graphBox = document.querySelector('.graph-box');
         $(graphBox).animate({
@@ -128,6 +124,7 @@ class GraphBox extends React.Component {
 
 const mapStateToProps = (state) => {
     return ({
+        display: state.UI.mainGraphBox,
         status: state.graphModel.status,
         meta: state.graphModel.meta,
         nodes: state.graphModel.nodes.all,

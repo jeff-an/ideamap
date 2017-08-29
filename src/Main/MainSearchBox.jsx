@@ -1,6 +1,5 @@
 import React from 'react';
 import $ from 'jquery';
-import fade from 'fade';
 import { Button } from 'react-bootstrap';
 
 import getTopMatchingArticles from '../Services/TitleSearchService.js';

@@ -9,9 +9,11 @@ import 'bootstrap/dist/css/bootstrap.css';
 import './SearchResults.css';
 import backButton from '../Misc/img/back-button.png';
 
-class SearchResults extends React.Component {
+class SearchResultsList extends React.Component {
     constructor(props) {
         super(props);
+        this.handleBackButton = this.handleBackButton.bind(this);
+        this.onArticleSelect = this.onArticleSelect.bind(this);
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -24,12 +26,6 @@ class SearchResults extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         console.log(nextProps);
-        this.setState({
-            query: "",
-            total: 0,
-            byId: [],
-            allResults: []
-        });
         $('.search-results-box').css({
             height: '150px',
             display: 'block'
@@ -41,7 +37,7 @@ class SearchResults extends React.Component {
     }
 
     onArticleSelect(index) {
-        let articleInfo = this.props.byId[index];
+        let articleInfo = this.props.titleSearch.byId[index];
         let articleObj = {
             title: articleInfo.title,
             uri: articleInfo.uri,
@@ -53,11 +49,10 @@ class SearchResults extends React.Component {
     handleBackButton() {
         let resultsBox = document.querySelector('.search-results-box');
         fade.out(resultsBox, 200, function() {
-            resultsBox.style.display = 'none';
-        });
-        let mainBox = document.querySelector('.main-search-box');
-        fade.in(mainBox, 200, function() {
-            mainBox.style.display = 'block';
+            let mainBox = document.querySelector('.main-search-box');
+            fade.in(mainBox, 200, function() {
+                this.props.showMainBox();
+            });
         });
     }
 
@@ -74,11 +69,14 @@ class SearchResults extends React.Component {
                 {"Choose a topic to generate a concept map for. If you don't see your topic, try finding it on Wikipedia first and then entering the article title here."}
                 </div>
                 <div className = "list-group">
-                {this.props.byId.map((result, index) =>
-                    <a key={index} className = "list-group-item list-group-item-action align-items-start" onClick={this.onArticleSelect.bind(this, index)} style={{ width: '100%', cursor: 'pointer' }}>
-                        <div className="search-result-title"> {result.title} </div>
-                        {result.summary.length < 110 ? result.summary : result.summary.substring(0, 110) + "..."}
-                    </a>
+                {this.props.titleSearch.byId.map((result, index) =>
+                    <SearchResult
+                        key={result.title}
+                        index={index}
+                        title={result.title}
+                        summary={result.summary}
+                        onArticleSelect={this.onArticleSelect}
+                    />
                 )}
                 </div>
             </div>
@@ -86,6 +84,34 @@ class SearchResults extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => state.titleSearch;
-const VisibleSearchResults = connect(mapStateToProps)(SearchResults);
-export default VisibleSearchResults;
+class SearchResult extends React.Component {
+    constructor(props) {
+        super(props);
+        this.onClick = this.onClick.bind(this);
+    }
+    onClick(e) {
+        e.preventDefault();
+        this.props.onArticleSelect(this.props.index);
+    }
+    render() {
+        return (
+            <a className = "list-group-item list-group-item-action align-items-start" onClick={this.onClick} style={{ width: '100%', cursor: 'pointer' }}>
+                <div className="search-result-title"> {this.props.title} </div>
+                {this.props.summary.length < 110 ? this.props.summary : this.props.summary.substring(0, 110) + "..."}
+            </a>
+        );
+    }
+}
+
+const mapStateToProps = (state) => ({
+    titleSearch: state.titleSearch,
+    display: state.UI.searchResultsBox
+});
+
+const mapDispatchToProps = (dispatch) => ({
+    showMainBox: () => dispatch({
+        type: 'SHOW_MAIN_BOX'
+    }),
+});
+const SearchResults = connect(mapStateToProps, mapDispatchToProps)(SearchResultsList);
+export default SearchResults;
