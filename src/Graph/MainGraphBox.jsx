@@ -9,35 +9,6 @@ import './ConceptMap.css';
 import store from '../Store/CentralStore.js';
 import './MainGraphBox.css';
 
-
-class GraphRoot extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-    shouldComponentUpdate() {
-        return false;
-    }
-    render() {
-        return (
-            <div className = "graph-root well" id = "GraphRoot" style = {{ opacity: 0 }}> </div>
-        );
-    }
-}
-
-class ConceptMap extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-    render() {
-        return (
-          <MindMap
-            nodes={this.props.nodes}
-            connections={this.props.connections}
-            />
-        );
-    }
-}
-
 const initialState = {
     opacity: 0,
     isLoading: true,
@@ -110,6 +81,7 @@ class GraphBox extends React.Component {
             <ConceptMap nodes = {this.props.nodes} connections = {this.props.connections} />,
             graphRoot
         );
+        this.props.showToolsAndTitle();
         fade.in(graphRoot, 350, () => {
             graphRoot.style.opacity = 1;
         });
@@ -119,14 +91,49 @@ class GraphBox extends React.Component {
         });
     }
 
-
-
     render() {
         return (
         <div className='well well-lg graph-box' id="GraphBox" style={{ opacity: this.state.opacity }}>
+            <GraphTitle title={this.props.graphUI.titleText ? [this.props.meta.title, ' Concept Map'] : ['Loading...', '']}/>
             <div className = 'loader' style = {{ display: this.state.isLoading ? 'block' : 'none' }}></div>
             <GraphRoot />
         </div>
+        );
+    }
+}
+
+class GraphTitle extends React.Component {
+    render() {
+        return (
+            <h2> <b>{this.props.title[0]}</b> {this.props.title[1]} </h2>
+        );
+    }
+}
+
+class GraphRoot extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+    shouldComponentUpdate() {
+        return false;
+    }
+    render() {
+        return (
+            <div className = "graph-root well" id = "GraphRoot" style = {{ opacity: 0 }}> </div>
+        );
+    }
+}
+
+class ConceptMap extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+    render() {
+        return (
+          <MindMap
+            nodes={this.props.nodes}
+            connections={this.props.connections}
+            />
         );
     }
 }
@@ -137,7 +144,8 @@ const mapStateToProps = (state) => {
         status: state.graphModel.status,
         meta: state.graphModel.meta,
         nodes: state.graphModel.nodes.all,
-        connections: state.graphModel.connections
+        connections: state.graphModel.connections,
+        graphUI: state.graphUI,
     });
 };
 
@@ -145,6 +153,9 @@ const mapDispatchToProps = (dispatch) => ({
     clearGraphModel: () => dispatch({
         type: 'CLEAR_GRAPH_MODEL'
     }),
+    showToolsAndTitle: () => dispatch({
+        type: 'GRAPH_GEN_COMPLETE'
+    })
 });
 
 const MainGraphBox = connect(mapStateToProps, mapDispatchToProps)(GraphBox);

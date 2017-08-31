@@ -37,7 +37,7 @@ class Body extends React.Component {
 
         // Visual cues
         let searchBox = document.querySelector('.main-search-box');
-        fade.out(searchBox, 200, function() {
+        fade.out(searchBox, 200, () => {
             if (!this.props.UI.mainGraphBox) {
                 this.props.showMainGraphBox();
             } else {
