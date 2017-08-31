@@ -24,6 +24,7 @@
 }
 
 .title-logo-container {
+    cursor: pointer;
     display: inline-block;
     float: left;
     position: absolute;

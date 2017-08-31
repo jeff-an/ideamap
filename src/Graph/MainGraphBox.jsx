@@ -39,8 +39,8 @@ class ConceptMap extends React.Component {
 }
 
 const initialState = {
+    opacity: 0,
     isLoading: true,
-    size: 1,
     isGraphDisplayed: false,
     isErrorDisplayed: false,
 };
@@ -50,6 +50,23 @@ class GraphBox extends React.Component {
         super();
         this.state = initialState;
         this.onGraphLoad = this.onGraphLoad.bind(this);
+    }
+
+    componentDidMount() {
+        let graphBox = document.querySelector('.graph-box');
+        fade.in(graphBox, 50, () => {
+            this.setState({
+                opacity: 1
+            }, () => {
+                $(graphBox).animate({
+                    top: '5%',
+                    left: '15%',
+                    width: '70%',
+                    height: '90%'
+                }, 350);
+            });
+        });
+
     }
 
     componentWillReceiveProps(nextProps) {
@@ -102,19 +119,11 @@ class GraphBox extends React.Component {
         });
     }
 
-    componentDidMount() {
-        let graphBox = document.querySelector('.graph-box');
-        $(graphBox).animate({
-            top: '5%',
-            left: '15%',
-            width: '70%',
-            height: '90%'
-        }, 350);
-    }
+
 
     render() {
         return (
-        <div className='well well-lg graph-box' id="GraphBox" >
+        <div className='well well-lg graph-box' id="GraphBox" style={{ opacity: this.state.opacity }}>
             <div className = 'loader' style = {{ display: this.state.isLoading ? 'block' : 'none' }}></div>
             <GraphRoot />
         </div>

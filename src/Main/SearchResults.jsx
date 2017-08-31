@@ -12,28 +12,35 @@ import backButton from '../Misc/img/back-button.png';
 class SearchResultsList extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            opacity: 0,
+        };
         this.handleBackButton = this.handleBackButton.bind(this);
         this.onArticleSelect = this.onArticleSelect.bind(this);
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
-        if (nextProps.query === undefined || nextProps.query === "") {
-            // Empty or valid data
-            return false;
-        }
-        return true;
+    componentDidMount() {
+        let resultsBox = document.querySelector('.search-results-box');
+        fade.in(resultsBox, 150, () => {
+            this.setState({
+                opacity: 1,
+            });
+            if (this.props.titleSearch.total > 0) {
+                let newHeight = 60 * this.props.titleSearch.total + 160;
+                $('.search-results-box').animate({
+                    height: newHeight + 'px',
+                }, 200);
+            }
+        });
     }
 
-    componentWillReceiveProps(nextProps) {
-        console.log(nextProps);
-        $('.search-results-box').css({
-            height: '150px',
-            display: 'block'
-        });
-        let newHeight = 60 * nextProps.total + 160;
-        $('.search-results-box').animate({
-            height: newHeight + 'px',
-        }, 350);
+    componentDidUpdate(prevProps, prevState) {
+        if (this.props.titleSearch.total !== prevProps.titleSearch.total) {
+            let newHeight = 60 * this.props.titleSearch.total + 160;
+            $('.search-results-box').animate({
+                height: newHeight + 'px',
+            }, 200);
+        }
     }
 
     onArticleSelect(index) {
@@ -48,17 +55,14 @@ class SearchResultsList extends React.Component {
 
     handleBackButton() {
         let resultsBox = document.querySelector('.search-results-box');
-        fade.out(resultsBox, 200, function() {
-            let mainBox = document.querySelector('.main-search-box');
-            fade.in(mainBox, 200, function() {
-                this.props.showMainBox();
-            });
+        fade.out(resultsBox, 200, () => {
+            this.props.showMainBox();
         });
     }
 
     render() {
         return (
-            <div className="well well-lg search-results-box">
+            <div className="well well-lg search-results-box" style={{ opacity: this.state.opacity }}>
                 <div style={{ display: 'inline-flex', alignItems: 'center', cursor:'pointer' }} onClick={this.handleBackButton}>
                     <img src={backButton} height="25" width="25" />
                     <span style={{ fontSize: '14px' }}> Back </span>
@@ -110,7 +114,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     showMainBox: () => dispatch({
-        type: 'SHOW_MAIN_BOX'
+        type: 'SHOW_ELEMENT',
+        element: 'mainSearchBox',
     }),
 });
 const SearchResults = connect(mapStateToProps, mapDispatchToProps)(SearchResultsList);

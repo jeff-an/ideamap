@@ -1,6 +1,7 @@
 import React from 'react';
 import $ from 'jquery';
 import { Button } from 'react-bootstrap';
+import fade from 'fade';
 
 import getTopMatchingArticles from '../Services/TitleSearchService.js';
 
@@ -16,10 +17,23 @@ const bullet = String.fromCharCode(9679);
 class MainSearchBox extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            opacity: 0
+        };
     }
+
+    componentDidMount() {
+        let mainSearchBox = document.querySelector('.main-search-box');
+        fade.in(mainSearchBox, 200, () => {
+            this.setState({
+                opacity: 1
+            });
+        });
+    }
+
     render() {
         return (
-            <div className = 'well well-lg main-search-box'>
+            <div className = 'well well-lg main-search-box' style={{ opacity: this.state.opacity }}>
                 <SearchIntro onExampleSelect={this.props.onExampleSelect}/>
                 <br/>
                 <SearchBar handleSubmit={this.props.handleSubmit}/>
@@ -96,7 +110,12 @@ class SearchIntro extends React.Component {
                     <div style = {{ height: '5px' }}/>
                     {this.examples.map((articleObj, index) => {
                         return (
-                            <SearchExample broadcastExampleSelect={this.broadcastExampleSelect} exampleName={articleObj.title} id={index} />
+                            <SearchExample
+                                broadcastExampleSelect={this.broadcastExampleSelect}
+                                key={articleObj.title}
+                                exampleName={articleObj.title}
+                                id={index}
+                            />
                         );
                     })}
                 </div>

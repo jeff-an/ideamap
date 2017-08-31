@@ -1,7 +1,7 @@
 .graph-box {
     display: flex;
     background-color: white;
-    overflow-y: auto;
+    overflow-y: hidden;
     position: absolute;
     top: calc(50% - 75px);
     left: calc(50% - 100px);

@@ -9,6 +9,7 @@
 }
 
 .mindmap-node > a {
+    cursor: pointer;
     background: royalblue !important;
     color: white !important;
     font-family: Raleway Light;

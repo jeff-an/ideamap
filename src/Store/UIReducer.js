@@ -1,38 +1,29 @@
 const initialState = {
-    mainSearchBox: 'block',
-    searchResultsBox: 'none', // -> block
-    mainGraphBox: 'none', // -> flex
-    graphKey: "0.5448825617480129",
+    mainSearchBox: true,
+    searchResultsBox: false, // -> block
+    mainGraphBox: false, // -> flex
+    mainGraphBoxKey: "0.5448825617480129",
+    mainSearchBoxKey: "0.7326552280521936",
+    searchResultsBoxKey: "0.30287281086816953",
 };
 
-const UIReducer = function(action, state = initialState) {
+const UIReducer = function(state = initialState, action) {
     switch(action.type) {
-        case 'SHOW_SEARCH_RESULTS':
-            return {
-                mainSearchBox: 'none',
-                searchResultsBox: 'block',
-                mainGraphBox: 'none'
-            };
-
-        case 'SHOW_MAIN_BOX':
-            return {
-                mainSearchBox: 'block',
-                searchResultsBox: 'none',
-                mainGraphBox: 'none'
-            };
-
-        case 'SHOW_GRAPH_BOX':
-            return {
-                mainSearchBox: 'none',
-                searchResultsBox: 'none',
-                mainGraphBox: 'flex'
-            };
-
         // jshint ignore:start
-        case 'RESET_GRAPH_BOX':
+        case 'SHOW_ELEMENT':
             return {
                 ...state,
-                graphKey: Math.random().toString()
+                mainSearchBox: false,
+                searchResultsBox: false,
+                mainGraphBox: false,
+                [action.element]: true,
+                [action.element + 'Key']: Math.random().toString(),
+            };
+
+        case 'DESTROY_ELEMENT':
+            return {
+                ...state,
+                [action.element]: false,
             };
         // jshint ignore:end
 

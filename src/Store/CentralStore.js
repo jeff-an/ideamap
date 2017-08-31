@@ -9,6 +9,6 @@ let centralReducer = combineReducers({
     UI,
 });
 
-let store = createStore(centralReducer);
+let store = createStore(centralReducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
 export default store;
