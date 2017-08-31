@@ -1,9 +1,10 @@
 .graph-box {
+    box-shadow: inset 0px 5px 10px black;
     display: flex;
     background-color: white;
     overflow-y: hidden;
     position: absolute;
-    top: calc(50% - 75px);
+    top: calc(50% - 75px); /* initial "shrunk" setting */
     left: calc(50% - 100px);
     width: 200px;
     height: 150px;
@@ -31,13 +32,22 @@
 .graph-root {
     position: absolute;
     top: 12%;
-    right: 10%;
+    left: 5%;
     display: flex;
     background-color: #3d3838;
     height: 80%;
-    width: 80%;
+    width: 90%;
     align-items: center;
     justify-content: center;
+}
+
+.graph-back-button {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    position: absolute;
+    left: 5%;
+    top: calc(12% - 40px);
 }
 
 @keyframes spin {

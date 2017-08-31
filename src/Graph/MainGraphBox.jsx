@@ -5,9 +5,11 @@ import ReactDOM from 'react-dom';
 import MindMap from 'react-mindmap';
 import { connect } from 'react-redux';
 
-import './ConceptMap.css';
+import GraphToolPane from './GraphToolPane.jsx';
 import store from '../Store/CentralStore.js';
+import backButton from '../Misc/img/back-button.png';
 import './MainGraphBox.css';
+import './ConceptMap.css';
 
 const initialState = {
     opacity: 0,
@@ -21,6 +23,8 @@ class GraphBox extends React.Component {
         super();
         this.state = initialState;
         this.onGraphLoad = this.onGraphLoad.bind(this);
+        this.downloadGraph = this.downloadGraph.bind(this);
+        this.handleBackButton = this.handleBackButton.bind(this);
     }
 
     componentDidMount() {
@@ -91,10 +95,42 @@ class GraphBox extends React.Component {
         });
     }
 
+    downloadGraph() {
+        let regex = /<img(.*?)>/ig;
+        var svgData = $('.mindmap-svg')[0].outerHTML;
+        svgData = svgData.replace(regex, "<img$1></img>");
+        var svgBlob = new Blob([svgData], {type:"image/svg+xml;charset=utf-8"});
+        var svgUrl = URL.createObjectURL(svgBlob);
+        var downloadLink = document.createElement("a");
+        downloadLink.href = svgUrl;
+        downloadLink.download = "ConceptMap.svg";
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+    }
+
+    handleBackButton() {
+        let graphBox = document.querySelector('.graph-box');
+        fade.out(graphBox, 200, () => {
+            this.props.showMainSearchBox();
+        });
+    }
+
     render() {
         return (
         <div className='well well-lg graph-box' id="GraphBox" style={{ opacity: this.state.opacity }}>
+            {!this.props.graphUI.backButton ? "" :
+                <div className="graph-back-button" onClick={this.handleBackButton}>
+                    <img src={backButton} height="25" width="25" />
+                    <span style={{ fontSize: '14px', marginLeft: '5px' }}> Back </span>
+                </div>
+            }
             <GraphTitle title={this.props.graphUI.titleText ? [this.props.meta.title, ' Concept Map'] : ['Loading...', '']}/>
+            {!this.props.graphUI.toolsPane ? "" :
+                <GraphToolPane
+                    downloadGraph={this.downloadGraph}
+                />
+            }
             <div className = 'loader' style = {{ display: this.state.isLoading ? 'block' : 'none' }}></div>
             <GraphRoot />
         </div>
@@ -155,7 +191,11 @@ const mapDispatchToProps = (dispatch) => ({
     }),
     showToolsAndTitle: () => dispatch({
         type: 'GRAPH_GEN_COMPLETE'
-    })
+    }),
+    showMainSearchBox: () => dispatch({
+        type: 'SHOW_ELEMENT',
+        element: 'mainSearchBox'
+    }),
 });
 
 const MainGraphBox = connect(mapStateToProps, mapDispatchToProps)(GraphBox);

@@ -1,6 +1,7 @@
 const initialState = {
     toolsPane: false,
     titleText: false,
+    backButton: false,
 };
 
 function graphUIReducer(state = initialState, action) {
@@ -11,6 +12,7 @@ function graphUIReducer(state = initialState, action) {
                 ...state,
                 toolsPane: true,
                 titleText: true,
+                backButton: true,
             };
         // jshint ignore:end
         default:
