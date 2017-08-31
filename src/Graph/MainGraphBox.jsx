@@ -112,6 +112,7 @@ class GraphBox extends React.Component {
     handleBackButton() {
         let graphBox = document.querySelector('.graph-box');
         fade.out(graphBox, 200, () => {
+            this.props.resetGraphUI();
             this.props.showMainSearchBox();
         });
     }
@@ -195,6 +196,9 @@ const mapDispatchToProps = (dispatch) => ({
     showMainSearchBox: () => dispatch({
         type: 'SHOW_ELEMENT',
         element: 'mainSearchBox'
+    }),
+    resetGraphUI: () => dispatch({
+        type: 'RESET_GRAPH_UI'
     }),
 });
 

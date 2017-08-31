@@ -14,6 +14,9 @@ function graphUIReducer(state = initialState, action) {
                 titleText: true,
                 backButton: true,
             };
+
+        case 'RESET_GRAPH_UI':
+            return initialState;
         // jshint ignore:end
         default:
             return state;
