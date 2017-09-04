@@ -101,7 +101,7 @@ class SearchIntro extends React.Component {
                 <div className = "bold-font">
                     <a>Instructions</a>
                 </div>
-                <div className = "regular-font-lg" style = {{ margin: '0 0 5 0'}} >
+                <div className = "regular-font-lg" style = {{ margin: '0 0 5 0', whiteSpace: 'nowrap !important'}} >
                     IdeaMap finds ideas related to your topic and uses them to construct concept maps. Click
                     {' '} <a onClick = { this.toggleExamples }>here</a> {' '}
                     to view examples.
@@ -165,7 +165,7 @@ class SearchBar extends React.Component {
 
     render() {
         return (
-            <div className = "main-search clear-fix">
+            <div className = "main-search">
                 <form className = "main-search-form" onSubmit={this.handleSubmit}>
                     <SearchBarInput handleChange = {this.handleChange} />
                     <SearchBarButton />
@@ -204,11 +204,9 @@ class SearchBarInput extends React.Component {
 class SearchBarButton extends React.Component {
     render() {
         return (
-            <div className = "main-search-submit">
-                <Button className = "btn btn-primary" type="submit">
-                Generate
-                </Button>
-            </div>
+            <Button className = "btn btn-primary main-search-submit" type="submit">
+            Generate
+            </Button>
         );
     }
 }

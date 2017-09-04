@@ -7,7 +7,8 @@ import { connect } from 'react-redux';
 
 import GraphToolPane from './GraphToolPane.jsx';
 import store from '../Store/CentralStore.js';
-import backButton from '../Misc/img/back-button.png';
+import ConceptMap from './ConceptMap.jsx';
+
 import './MainGraphBox.css';
 import './ConceptMap.css';
 
@@ -16,6 +17,7 @@ const initialState = {
     isLoading: true,
     isGraphDisplayed: false,
     isErrorDisplayed: false,
+    graphRef: null,
 };
 
 class GraphBox extends React.Component {
@@ -23,8 +25,10 @@ class GraphBox extends React.Component {
         super();
         this.state = initialState;
         this.onGraphLoad = this.onGraphLoad.bind(this);
-        this.downloadGraph = this.downloadGraph.bind(this);
+        this.downloadSource = this.downloadSource.bind(this);
         this.handleBackButton = this.handleBackButton.bind(this);
+        this.toggleGraphMoveable = this.toggleGraphMoveable.bind(this);
+        this.rerenderGraph = this.rerenderGraph.bind(this);
     }
 
     componentDidMount() {
@@ -81,10 +85,13 @@ class GraphBox extends React.Component {
         });
         graphBox.setAttribute('class', 'graph-box'); // Remove well classes
         let graphRoot = document.getElementById('GraphRoot');
-        ReactDOM.render(
-            <ConceptMap nodes = {this.props.nodes} connections = {this.props.connections} />,
+        let graphRef = ReactDOM.render(
+            <ConceptMap id="concept-map" nodes={this.props.nodes} connections={this.props.connections} />,
             graphRoot
         );
+        this.setState({
+            graphRef: graphRef,
+        });
         this.props.showToolsAndTitle();
         fade.in(graphRoot, 350, () => {
             graphRoot.style.opacity = 1;
@@ -95,15 +102,38 @@ class GraphBox extends React.Component {
         });
     }
 
-    downloadGraph() {
+    /** Graph Tool Functions that require parent (graph box) access **/
+
+    toggleGraphMoveable(editable) {
+        this.state.graphRef.setState({
+            editable: editable
+        });
+    }
+
+    rerenderGraph() {
+        let graphRoot = document.getElementById('GraphRoot');
+        if (ReactDOM.unmountComponentAtNode(graphRoot)) {
+            // Only rerender if the remove was succesful
+            ReactDOM.render(
+                <ConceptMap id="concept-map" nodes={this.props.nodes} connections={this.props.connections} />,
+                graphRoot
+            );
+        }
+        $("div[data-reactroot='']").css({
+            width: '100%',
+            height: '100%'
+        });
+    }
+
+    downloadSource() {
         let regex = /<img(.*?)>/ig;
         var svgData = $('.mindmap-svg')[0].outerHTML;
         svgData = svgData.replace(regex, "<img$1></img>");
-        var svgBlob = new Blob([svgData], {type:"image/svg+xml;charset=utf-8"});
+        var svgBlob = new Blob([svgData], {type:"application/xml;charset=utf-8"});
         var svgUrl = URL.createObjectURL(svgBlob);
         var downloadLink = document.createElement("a");
         downloadLink.href = svgUrl;
-        downloadLink.download = "ConceptMap.svg";
+        downloadLink.download = "ConceptMap.xml";
         document.body.appendChild(downloadLink);
         downloadLink.click();
         document.body.removeChild(downloadLink);
@@ -122,14 +152,16 @@ class GraphBox extends React.Component {
         <div className='well well-lg graph-box' id="GraphBox" style={{ opacity: this.state.opacity }}>
             {!this.props.graphUI.backButton ? "" :
                 <div className="graph-back-button" onClick={this.handleBackButton}>
-                    <img src={backButton} height="25" width="25" />
+                    <i className="material-icons md-dark md-48"> arrow_back </i>
                     <span style={{ fontSize: '14px', marginLeft: '5px' }}> Back </span>
                 </div>
             }
             <GraphTitle title={this.props.graphUI.titleText ? [this.props.meta.title, ' Concept Map'] : ['Loading...', '']}/>
             {!this.props.graphUI.toolsPane ? "" :
                 <GraphToolPane
-                    downloadGraph={this.downloadGraph}
+                    downloadSource={this.downloadSource}
+                    toggleGraphMoveable={this.toggleGraphMoveable}
+                    rerenderGraph={this.rerenderGraph}
                 />
             }
             <div className = 'loader' style = {{ display: this.state.isLoading ? 'block' : 'none' }}></div>
@@ -157,20 +189,6 @@ class GraphRoot extends React.Component {
     render() {
         return (
             <div className = "graph-root well" id = "GraphRoot" style = {{ opacity: 0 }}> </div>
-        );
-    }
-}
-
-class ConceptMap extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-    render() {
-        return (
-          <MindMap
-            nodes={this.props.nodes}
-            connections={this.props.connections}
-            />
         );
     }
 }

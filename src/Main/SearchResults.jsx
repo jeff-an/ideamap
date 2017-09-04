@@ -7,7 +7,6 @@ import { buildGraphModel } from '../Graph/ModelBuilder.js';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import './SearchResults.css';
-import backButton from '../Misc/img/back-button.png';
 
 class SearchResultsList extends React.Component {
     constructor(props) {
@@ -26,7 +25,7 @@ class SearchResultsList extends React.Component {
                 opacity: 1,
             });
             if (this.props.titleSearch.total > 0) {
-                let newHeight = 60 * this.props.titleSearch.total + 160;
+                let newHeight = 65 * this.props.titleSearch.total + 160;
                 $('.search-results-box').animate({
                     height: newHeight + 'px',
                 }, 200);
@@ -64,7 +63,7 @@ class SearchResultsList extends React.Component {
         return (
             <div className="well well-lg search-results-box" style={{ opacity: this.state.opacity }}>
                 <div style={{ display: 'inline-flex', alignItems: 'center', cursor:'pointer' }} onClick={this.handleBackButton}>
-                    <img src={backButton} height="25" width="25" />
+                    <i className="material-icons md-dark md-48"> arrow_back </i>
                     <span style={{ fontSize: '14px' }}> Back </span>
                 </div>
                 <hr/>

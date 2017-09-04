@@ -1,18 +1,20 @@
 import React from 'react';
 import MindMap from 'react-mindmap';
-import { render } from 'react-dom';
-
-import store from '../Store/CentralStore.js';
 
 import './ConceptMap.css';
 
 class ConceptMap extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            editable: false
+        };
     }
     render() {
         return (
           <MindMap
+            id="concept-map"
+            editable={this.state.editable}
             nodes={this.props.nodes}
             connections={this.props.connections}
             />
@@ -20,19 +22,4 @@ class ConceptMap extends React.Component {
     }
 }
 
-/*
-function renderGraph(nodes, connections) {
-    render (
-        <ConceptMap nodes={store.getState().graphModel.nodes.all} connections={store.getState().graphModel.connections} />,
-        document.getElementById('GraphBox')
-    );
-}*/
-
-function renderGraph(nodes, connections) {
-    render (
-        <ConceptMap nodes={nodes} connections={connections} />,
-        document.getElementById('GraphRoot')
-    );
-}
-
-export { renderGraph as default, ConceptMap };
+export default ConceptMap;
