@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import NavBar from './NavBar.jsx';
 import logo from '../Misc/img/logo.svg';
 import './HeaderBar.css';
 
@@ -16,6 +17,7 @@ class Header extends React.Component {
     render() {
         return (
             <div className="app-header-bar">
+                <NavBar/>
                 <div className="title-logo-container" onClick={this.onClick}>
                     <img src={logo} className="app-logo" alt="logo" />
                     <div className="app-title">

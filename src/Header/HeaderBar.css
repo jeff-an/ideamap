@@ -10,6 +10,18 @@
     width: 100%;
     background-color: rgba(0,0,0,0.6);
     height: 60px;
+    font-family: Play;
+}
+
+.container .nav .nav-button-text {
+    color: #d2d7dd !important;
+    margin-top: 5px;
+}
+
+.nav-root {
+    background-color: transparent !important;
+    border-color: transparent !important;
+    width: 98%;
 }
 
 .app-logo {
@@ -32,6 +44,7 @@
     left: calc(50% - 85px);
     width: 170px;
     height: 100%;
+    z-index: 1500;
 }
 
 .app-title {
