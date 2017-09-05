@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Nav, Navbar, NavItem } from 'react-bootstrap';
 
+import './NavBar.css';
+
 const Pages = ['aboutPage', 'howItWorksPage'];
 const canonicalPages = {
     aboutPage: 'About IdeaMap',
@@ -16,25 +18,25 @@ class NavBar extends React.Component {
     }
     openEmailDialog(key, e) {
         e.preventDefault();
-        window.open("mailto:uwjeffan@gmail.com");
+        window.location.href = "mailto:uwjeffan@gmail.com";
     }
     render() {
         return (
-            <Navbar inverse collapseOnSelectfluid fixedTop className="nav-root">
+            <Navbar inverse collapseOnSelect fluid fixedTop className="nav-root">
                 <Navbar.Header>
                     <Navbar.Toggle />
                 </Navbar.Header>
                 <Navbar.Collapse>
                     <Nav>
                         { this.pages.map(page => (
-                            <NavItem eventKey={page} onSelect={this.props.showPage}>
-                                <p className="nav-button-text">
+                            <NavItem key = {page} eventKey={page} onSelect={this.props.showPage}>
+                                <p key={page + "Text"} className="nav-button-text">
                                     {this.canonicalPages[page]}
                                 </p>
                             </NavItem>
                         ))}
                     </Nav>
-                    <Nav pullRight>
+                    <Nav pullRight className="nav-right">
                         <NavItem eventKey={'contactUs'} onSelect={this.openEmailDialog}>
                             <p className="nav-button-text">
                                 Contact Us

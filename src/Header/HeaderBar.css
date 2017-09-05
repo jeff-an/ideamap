@@ -13,17 +13,6 @@
     font-family: Play;
 }
 
-.container .nav .nav-button-text {
-    color: #d2d7dd !important;
-    margin-top: 5px;
-}
-
-.nav-root {
-    background-color: transparent !important;
-    border-color: transparent !important;
-    width: 98%;
-}
-
 .app-logo {
     position: relative;
     display: inline-block;

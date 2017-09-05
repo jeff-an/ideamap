@@ -1,0 +1,13 @@
+.nav-button-text {
+    color: #d2d7dd !important;
+    margin-top: 5px !important;
+}
+
+.nav-root {
+    background-color: transparent !important;
+    border-color: transparent !important;
+}
+
+.nav-root .nav-right {
+    margin: 0 !important;
+}

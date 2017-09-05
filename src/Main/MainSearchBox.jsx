@@ -76,14 +76,18 @@ class SearchIntro extends React.Component {
 
     toggleExamples() {
         if (this.state.displayExamples === 'none') {
+            $('.main-search-box').css('max-height', '450px');
             $('.main-search-box').css('min-height', '390px');
-            $('.main-search-box').css('height', '47%');
+            $('.main-search-box').css('height', 'calc(40% + 150px)');
+            $('.main-search').css('top', 'calc(28% + 140px)');
             this.setState(prev => ({
                 displayExamples: "block"
             }));
         } else {
+            $('.main-search-box').css('max-height', '380px');
             $('.main-search-box').css('min-height', '320px');
-            $('.main-search-box').css('height', '45%');
+            $('.main-search-box').css('height', 'calc(35% + 150px)');
+            $('.main-search').css('top', 'calc(33% + 85px)');
             this.setState(prev => ({
                 displayExamples: "none"
             }));
@@ -93,8 +97,8 @@ class SearchIntro extends React.Component {
     render() {
         return (
             <div className = "main-search-intro">
-                <h4 style = {{ marginTop: '5px'}}><b>I</b>ntelligent <b>DE</b>finition <b>A</b>ssociative</h4>
-                <h1 style = {{ margin: '0 0 5 0', fontSize: '40px', fontFamily: 'Montserrat Light, sans-serif' }}>
+                <h4><b>I</b>ntelligent <b>DE</b>finition <b>A</b>ssociative</h4>
+                <h1>
                     Concept Mapping.
                 </h1>
                 <br/>
@@ -204,9 +208,11 @@ class SearchBarInput extends React.Component {
 class SearchBarButton extends React.Component {
     render() {
         return (
-            <Button className = "btn btn-primary main-search-submit" type="submit">
-            Generate
-            </Button>
+            <div className="button-container">
+                <Button className = "btn-responsive btn btn-primary main-search-submit" type="submit">
+                    <p style={{ margin: 0, }}>Generate</p>
+                </Button>
+            </div>
         );
     }
 }

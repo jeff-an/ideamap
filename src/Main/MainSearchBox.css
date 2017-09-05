@@ -21,25 +21,26 @@
 .main-search-box {
     box-shadow: 4px 3px 6px black !important;
     min-height: 320px;
-    max-height: 440px;
+    max-height: 380px;
+    overflow: hidden;
     position: absolute;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     padding-top: 0;
     left: 17.5%;
-    top: 20%;
+    top: calc(5% + 80px);
     width: 65%;
-    height: 45%;
+    height: calc(35% + 150px);
 }
 
 .main-search-box .main-search {
-    /**position: absolute;
-    bottom: 15px;
-    left: 0;**/
-    min-width: 100%;
-    height: calc(70px + 16%);
+    position: absolute;
+    top: calc(33% + 85px);
+    left: 0;
+    width: 100%;
+    padding-top: 10px;
 }
 
 .main-search-box .main-search-intro {
@@ -47,15 +48,19 @@
     text-align: center;
     min-width: 100%;
     line-height: 14px;
-    overflow: hidden;
-    text-overflow: clip;
+    overflow: visible;
     word-wrap: break-word;
+    margin-top: 10px;
+}
+
+.main-search-box .main-search-intro #search-examples {
+    margin-top: 10px;
 }
 
 .main-search-intro .regular-font-lg {
     text-align: center;
     font-family: Raleway Regular;
-    font-size: 1vw;
+    font-size: 1.8vh;
     white-space: normal;
     line-height: 19px;
     width: 100%;
@@ -72,8 +77,19 @@
 
 .main-search-intro .bold-font {
     font-family: Raleway SemiBold;
-    font-size: 16px;
+    font-size: 2.2vh;
     margin-bottom: 10px;
+}
+
+.main-search-intro h1 {
+    margin: 0 0 5 0;
+    font-size: 4.5vh;
+    font-family: Montserrat Light, sans-serif;
+}
+
+.main-search-intro h4 {
+    font-size: 2vh;
+    margin-top: 5px;
 }
 
 .graph-root {

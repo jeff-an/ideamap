@@ -38,8 +38,8 @@
 
 .main-search .main-search-bar .fa-search {
     position: absolute;
-    top: calc(42% + 64px);
-    left: calc(20% + 24px);
+    top: 26.5px;
+    left: 21.25%;
     color: #000;
 }
 
@@ -49,7 +49,7 @@
     bottom: 10px;
     left: calc(50% - 45px);**/
     width: 90px;
-    margin-top: 40px;
+    margin-top: 3.5%;
     color: #26094B;
 }
 
@@ -58,6 +58,11 @@
     color: white;
     font-weight: 400;
     font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.button-container {
+    margin-bottom: 10px;
 }
 
 .clearfix::after {
