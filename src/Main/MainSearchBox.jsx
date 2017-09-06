@@ -11,6 +11,7 @@ import './MainSearchBox.css';
 /** Global variables **/
 
 const bullet = String.fromCharCode(9679);
+let mainSearchBoxFirstRender = true;
 
 /** Components **/
 
@@ -29,6 +30,7 @@ class MainSearchBox extends React.Component {
                 opacity: 1
             });
         });
+
     }
 
     render() {
@@ -46,7 +48,9 @@ class SearchIntro extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            displayExamples: "none"
+            displayExamples: "none",
+            h1opacity: 0,
+            h4opacity: 0,
         };
         this.examples = [
             {
@@ -67,6 +71,27 @@ class SearchIntro extends React.Component {
         ];
         this.toggleExamples = this.toggleExamples.bind(this);
         this.broadcastExampleSelect = this.broadcastExampleSelect.bind(this);
+    }
+
+    componentDidMount() {
+        if (mainSearchBoxFirstRender) {
+            setTimeout(() => {
+                fade.in(document.querySelector('.main-search-intro > h4'), 600, () => {
+                    fade.in(document.querySelector('.main-search-intro > h1'), 600, () => {
+                        this.setState({
+                            h1opacity: 100,
+                            h4opacity: 100,
+                        });
+                    });
+                });
+            }, 100);
+            mainSearchBoxFirstRender = false;
+        } else {
+            this.setState({
+                h1opacity: 100,
+                h4opacity: 100,
+            });
+        }
     }
 
     broadcastExampleSelect(id) {
@@ -97,8 +122,8 @@ class SearchIntro extends React.Component {
     render() {
         return (
             <div className = "main-search-intro">
-                <h4><b>I</b>ntelligent <b>DE</b>finition <b>A</b>ssociative</h4>
-                <h1>
+                <h4 style={{ opacity: this.state.h4opacity }}><b>I</b>ntelligent <b>DE</b>finition <b>A</b>ssociative</h4>
+                <h1 style={{ opacity: this.state.h1opacity }}>
                     Concept Mapping.
                 </h1>
                 <br/>

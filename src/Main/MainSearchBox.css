@@ -30,7 +30,7 @@
     justify-content: flex-start;
     padding-top: 0;
     left: 17.5%;
-    top: calc(5% + 80px);
+    top: calc(10% + 30px);
     width: 65%;
     height: calc(35% + 150px);
 }

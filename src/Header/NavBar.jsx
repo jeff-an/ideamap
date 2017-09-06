@@ -4,10 +4,10 @@ import { Nav, Navbar, NavItem } from 'react-bootstrap';
 
 import './NavBar.css';
 
-const Pages = ['aboutPage', 'howItWorksPage'];
+const Pages = ['AboutPage', 'HowItWorksPage'];
 const canonicalPages = {
-    aboutPage: 'About IdeaMap',
-    howItWorksPage: 'How It Works'
+    AboutPage: 'About IdeaMap',
+    HowItWorksPage: 'How It Works'
 };
 
 class NavBar extends React.Component {
@@ -56,7 +56,7 @@ const mapDispatchToProps = (dispatch) => ({
         e.preventDefault();
         dispatch({
             type: 'SHOW_PAGE',
-            element: eventKey,
+            pageName: eventKey,
         });
     },
 });

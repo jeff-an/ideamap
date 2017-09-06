@@ -8,11 +8,17 @@ import MainGraphBox from '../Graph/MainGraphBox.jsx';
 import SearchResults from './SearchResults.jsx';
 import {buildGraphModel} from '../Graph/ModelBuilder.js';
 
+/** Pages **/
+import AboutPage from '../Pages/About.jsx';
+
 import './MainBody.css';
 
 class Body extends React.Component {
     constructor(props) {
         super(props);
+        this.pages = {
+            AboutPage: AboutPage,
+        };
         this.onSearchSubmit = this.onSearchSubmit.bind(this);
         this.onExampleSelect = this.onExampleSelect.bind(this);
         this.onArticleSelect = this.onArticleSelect.bind(this);
@@ -61,31 +67,39 @@ class Body extends React.Component {
     }
 
     render() {
-        return (
-            <div className="main-body">
+        if (!this.props.UI.page) {
+            return (
+                <div className="main-body">
 
-                {this.props.UI.mainSearchBox ?
-                    <MainSearchBox
-                        key={this.props.UI.mainSearchBoxKey}
-                        onExampleSelect={this.onExampleSelect}
-                        handleSubmit={this.onSearchSubmit}
-                    />
-                : ""}
+                    {/** Elements in the main page **/}
 
-                {this.props.UI.searchResultsBox ?
-                    <SearchResults
-                        onArticleSelect={this.onArticleSelect}
-                        key={this.props.UI.searchResultsBoxKey}
-                    />
-                : ""}
+                    {this.props.UI.mainSearchBox ?
+                        <MainSearchBox
+                            key={this.props.UI.mainSearchBoxKey}
+                            onExampleSelect={this.onExampleSelect}
+                            handleSubmit={this.onSearchSubmit}
+                        />
+                    : ""}
 
-                {this.props.UI.mainGraphBox ?
-                    <MainGraphBox key={this.props.UI.mainGraphBoxKey}/>
-                : ""}
+                    {this.props.UI.searchResultsBox ?
+                        <SearchResults
+                            onArticleSelect={this.onArticleSelect}
+                            key={this.props.UI.searchResultsBoxKey}
+                        />
+                    : ""}
 
+                    {this.props.UI.mainGraphBox ?
+                        <MainGraphBox key={this.props.UI.mainGraphBoxKey}/>
+                    : ""}
 
-            </div>
-        );
+                </div>
+            );
+        } else {
+            let Page = eval(this.pages[this.props.UI.page]);
+            return (
+                <Page/>
+            );
+        }
     }
 }
 
