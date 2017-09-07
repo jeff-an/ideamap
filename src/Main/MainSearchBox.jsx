@@ -76,16 +76,20 @@ class SearchIntro extends React.Component {
     componentDidMount() {
         if (mainSearchBoxFirstRender) {
             setTimeout(() => {
-                fade.in(document.querySelector('.main-search-intro > h4'), 600, () => {
-                    fade.in(document.querySelector('.main-search-intro > h1'), 600, () => {
-                        this.setState({
-                            h1opacity: 100,
-                            h4opacity: 100,
-                        });
+                if (document.querySelector('.main-search-intro > h4')) {
+                    fade.in(document.querySelector('.main-search-intro > h4'), 600, () => {
+                        if (document.querySelector('.main-search-intro > h1')) {
+                            fade.in(document.querySelector('.main-search-intro > h1'), 600, () => {
+                                this.setState({
+                                    h1opacity: 100,
+                                    h4opacity: 100,
+                                });
+                            });
+                        }
                     });
-                });
+                }
+                mainSearchBoxFirstRender = false;
             }, 100);
-            mainSearchBoxFirstRender = false;
         } else {
             this.setState({
                 h1opacity: 100,

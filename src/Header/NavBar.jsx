@@ -18,7 +18,7 @@ class NavBar extends React.Component {
     }
     openEmailDialog(key, e) {
         e.preventDefault();
-        window.location.href = "mailto:uwjeffan@gmail.com";
+        window.location.href = "mailto:uwjeffan@outlook.com";
     }
     render() {
         return (

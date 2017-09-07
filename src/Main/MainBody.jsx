@@ -10,6 +10,7 @@ import {buildGraphModel} from '../Graph/ModelBuilder.js';
 
 /** Pages **/
 import AboutPage from '../Pages/About.jsx';
+import HowItWorksPage from '../Pages/HowItWorks.jsx';
 
 import './MainBody.css';
 
@@ -18,6 +19,7 @@ class Body extends React.Component {
         super(props);
         this.pages = {
             AboutPage: AboutPage,
+            HowItWorksPage: HowItWorksPage,
         };
         this.onSearchSubmit = this.onSearchSubmit.bind(this);
         this.onExampleSelect = this.onExampleSelect.bind(this);

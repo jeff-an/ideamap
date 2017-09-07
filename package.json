@@ -1,5 +1,6 @@
 {
   "name": "idea-map",
+  "homepage": "http://ideamap.ca.s3-website.ca-central-1.amazonaws.com",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -15,7 +16,8 @@
     "react-router": "^4.1.2",
     "react-scripts": "1.0.10",
     "react-scrollspy": "^3.3.3",
-    "redux": "^3.7.2"
+    "redux": "^3.7.2",
+    "visible-element": "^1.0.1"
   },
   "scripts": {
     "start": "react-scripts start",

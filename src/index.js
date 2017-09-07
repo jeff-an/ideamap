@@ -30,13 +30,14 @@ ReactDOM.render(<App />, document.getElementById('root'), function() {
     $('#SearchBarInput').focus();
 });
 
-// Tests
+// Tests & other dev stuff
 /*
 analyzeSingleArticle("malus").then(function(data) {
     console.log(data);
 });
 getAllWordFrequencies(["hello", "world"]).then(function(data) {
     console.log(data);
-}); */
+});
 
 registerServiceWorker();
+*/
