@@ -19,28 +19,26 @@
 }
 
 .main-search-box {
-    box-shadow: 4px 3px 6px black !important;
-    min-height: 320px;
-    max-height: 380px;
+    border-radius: 6px;
+    background-color: #f5f5f5;
+    border: 1px solid #e3e3e3;
+    box-shadow: 4px 3px 6px black;
+    min-height: 32.5vh;
     overflow: hidden;
     position: absolute;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    padding-top: 0;
+    padding-top: 15px;
+    top: 10vh;
     left: 17.5%;
-    top: calc(10% + 30px);
     width: 65%;
-    height: calc(35% + 150px);
 }
 
 .main-search-box .main-search {
-    position: absolute;
-    top: calc(33% + 85px);
     left: 0;
     width: 100%;
-    padding-top: 10px;
 }
 
 .main-search-box .main-search-intro {
@@ -60,10 +58,10 @@
 .main-search-intro .regular-font-lg {
     text-align: center;
     font-family: Raleway Regular;
-    font-size: 1.8vh;
+    font-size: 15px;
     white-space: normal;
     line-height: 19px;
-    width: 100%;
+    margin: 10px;
 }
 
 .main-search-intro .regular-font-sm {
@@ -77,7 +75,7 @@
 
 .main-search-intro .bold-font {
     font-family: Raleway SemiBold;
-    font-size: 2.2vh;
+    font-size: 20px;
     margin-bottom: 10px;
 }
 

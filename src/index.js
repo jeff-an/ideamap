@@ -6,6 +6,10 @@ import registerServiceWorker from './registerServiceWorker';
 import $ from 'jquery';
 import { buildGraphModel } from './Graph/ModelBuilder.js';
 import store from './Store/CentralStore.js';
+import injectTapEventPlugin from 'react-tap-event-plugin';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+
+injectTapEventPlugin();
 
 window.findReact = function(dom) {
     for (var key in dom) {
@@ -26,7 +30,7 @@ buildGraphModel({
     summary: "Linear algebra is great!"
 }, 1);*/
 
-ReactDOM.render(<App />, document.getElementById('root'), function() {
+ReactDOM.render(<MuiThemeProvider><App /></MuiThemeProvider>, document.getElementById('root'), function() {
     $('#SearchBarInput').focus();
 });
 

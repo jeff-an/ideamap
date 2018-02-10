@@ -1,6 +1,7 @@
 import React from 'react';
 import $ from 'jquery';
 import { Button } from 'react-bootstrap';
+import MaterialSearchBar from 'material-ui-search-bar';
 import fade from 'fade';
 
 import getTopMatchingArticles from '../Services/TitleSearchService.js';
@@ -35,7 +36,7 @@ class MainSearchBox extends React.Component {
 
     render() {
         return (
-            <div className = 'well well-lg main-search-box' style={{ opacity: this.state.opacity }}>
+            <div className = 'main-search-box' style={{ opacity: this.state.opacity }}>
                 <SearchIntro onExampleSelect={this.props.onExampleSelect}/>
                 <br/>
                 <SearchBar handleSubmit={this.props.handleSubmit}/>
@@ -105,30 +106,28 @@ class SearchIntro extends React.Component {
 
     toggleExamples() {
         if (this.state.displayExamples === 'none') {
-            $('.main-search-box').css('max-height', '450px');
-            $('.main-search-box').css('min-height', '390px');
-            $('.main-search-box').css('height', 'calc(40% + 150px)');
-            $('.main-search').css('top', 'calc(28% + 140px)');
-            this.setState(prev => ({
-                displayExamples: "block"
-            }));
+          $('.main-search-box').css({
+            "min-height": '38vh',
+          });
+          this.setState(prev => ({
+              displayExamples: "block"
+          }));
         } else {
-            $('.main-search-box').css('max-height', '380px');
-            $('.main-search-box').css('min-height', '320px');
-            $('.main-search-box').css('height', 'calc(35% + 150px)');
-            $('.main-search').css('top', 'calc(33% + 85px)');
-            this.setState(prev => ({
-                displayExamples: "none"
-            }));
+          $('.main-search-box').css({
+            "min-height": '32.5vh',
+          });
+          this.setState(prev => ({
+              displayExamples: "none"
+          }));
         }
     }
 
     render() {
         return (
             <div className = "main-search-intro">
-                <h4 style={{ opacity: this.state.h4opacity }}><b>I</b>ntelligent <b>DE</b>finition <b>A</b>ssociative</h4>
+                <h4 style={{ opacity: this.state.h4opacity }}><b>I</b>ntelligent <b>De</b>finition <b>A</b>ssociative</h4>
                 <h1 style={{ opacity: this.state.h1opacity }}>
-                    Concept Mapping.
+                    Concept Mapping
                 </h1>
                 <br/>
                 <div className = "bold-font">
@@ -180,13 +179,13 @@ class SearchBar extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleChange(e) {
-        this.setState({ value: e.target.value });
+    handleChange(val) {
+      this.setState({ value: val });
     }
 
-    handleSubmit(e) {
-        e.preventDefault();
+    handleSubmit() {
         let searchText = this.state.value;
+        console.log(searchText);
         if (searchText.length < 3) {
             alert('Please enter at least three characters.');
             return;
@@ -196,11 +195,15 @@ class SearchBar extends React.Component {
         this.props.handleSubmit();
     }
 
+    stopDefault(e) {
+      e.preventDefault();
+    }
+
     render() {
         return (
             <div className = "main-search">
-                <form className = "main-search-form" onSubmit={this.handleSubmit}>
-                    <SearchBarInput handleChange = {this.handleChange} />
+                <form className = "main-search-form" onSubmit={this.stopDefault}>
+                    <SearchBarInput handleSubmit={this.handleSubmit} handleChange={this.handleChange} />
                     <SearchBarButton />
                 </form>
             </div>
@@ -212,23 +215,27 @@ class SearchBarInput extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            placeholder: "Enter a concept..."
+            placeholder: "Enter a concept...",
+            value: ''
         };
+        this.handleChange = this.handleChange.bind(this);
+    }
+
+    handleChange(value) {
+      this.props.handleChange(value);
     }
 
     render() {
         return (
             <div className = "main-search-bar">
-                <span className = "fa fa-search fa-lg"></span>
-                <input
+                <MaterialSearchBar
+                    id="SearchBarInput"
                     value = {this.state.value}
-                    type = "search"
-                    className = "form-control"
-                    autoCapitalize = "words"
-                    maxLength = "30"
-                    placeholder = {this.state.placeholder}
-                    onChange = {this.props.handleChange}
-                    autoComplete = "off" />
+                    hintText = {this.state.placeholder}
+                    spellCheck = {true}
+                    onChange = {(value) => this.handleChange(value)}
+                    onRequestSearch = {this.props.handleSubmit}
+                    />
             </div>
         );
     }
